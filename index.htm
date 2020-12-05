@@ -1,0 +1,134 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="New_Styles.css">
+		
+		<script src="Third_Party/three.min.js"></script>
+		<script src="Third_Party/THREEx.WindowResize.js"></script>
+		<script src="Third_Party/OrbitControls.js"></script>
+		<script src="Third_Party/Stats.min.js"></script>
+		<script src="Third_Party/paper-full.min.js"></script>
+		
+		<script src="ArrayExtensions.js"></script>
+		<script src="STLLoader.js"></script>
+		<script src="SceneManager.js"></script>
+		<script src="Slicer.js"></script>
+		<script src="SliceViewer.js"></script>
+		
+	</head>
+	<body>
+	<table id="MainTable" >
+
+
+	<tr>
+		<table id="HeaderTable" style="margin: auto;">
+			<td>
+				
+				<div class="file_upload">
+				<button type="button" class='grey_btn' onclick="triggerFileInput()" style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Load object">
+					<img src="images/search-icon_white_small.png" alt="LOAD" style="vertical-align: middle">
+				</button>
+				
+				</div>
+			</td>
+			<td>
+				<input id="fileNameTextBox" class='text_input' type='text' placeholder="No file selected" style="vertical-align: middle" readonly/>
+			</td>
+		</table>
+		<input type="file" id="files" name="files[]" style="visibility: hidden">
+	</tr>
+	
+	
+	<tr>
+	
+		<table id="ViewTable" style="width: 100%; box-shadow: inset 1px 1px 4px -2px #9C9C9C, 2px 2px 3px  #1F1F1F; border: 5px outset grey / darkgray; padding: 1px; " cellspacing="7" border="1">
+		<tr>
+	<td style="width: 50%;" class="tableCell">
+		<canvas id="main_canvas_sliceview" style="width: 100%; height: 100%; border: thin inset grey /darkgray;" width="1000" height="1000" class="interactive_canvas"></canvas>
+	</td>
+	<td id="td_canvas" style="width: 50%;" class="tableCell">
+		<canvas id="main_canvas_objectview" style="width: 100%; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
+	</td>
+	</tr>
+	</table>
+
+	</tr>
+	
+	<tr>
+	<table style="width: 100%;  " >
+	<td>
+	<table style="margin-right: auto;">
+	
+	<td>
+		<!-- Squared ONE -->
+    <table>
+    <td>
+		<div class="squaredOne">
+			<input type="checkbox" value="None" id="squaredOne" name="check" />
+			<label for="squaredOne"></label>
+		</div>
+    </td>
+    <td>
+		<p class="accountLabel">Show points </p>
+    </td>
+    </table>
+	</td>
+	<td>
+		<!-- Squared ONE -->
+    <table>
+    <td>
+		<div class="squaredOne">
+			<input type="checkbox" value="None" id="squaredTwo" name="check" />
+			<label for="squaredTwo"></label>
+		</div>
+    </td>
+    <td>
+		<p class="accountLabel">Show lines</p>
+    </td>
+    </table>
+	</td>
+	<td>
+  <table>
+  <td>
+		<div class="squaredOne">
+			<input type="checkbox" value="None" id="squaredThree" name="check" />
+			<label for="squaredThree"></label>
+		</div>
+    </td>
+    <td>
+		<p class="accountLabel">Fill counturs </p>
+    </td>
+    </table>
+	</td>
+	
+	
+	
+	
+	
+	</table>
+	</td>
+	<td>
+		<table style="margin: auto;">
+			<td>
+				<button type="button" class='grey_btn' onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
+					<img src="images/layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
+				</button>
+			</td>
+		</table>
+		</td>
+		<td>
+			<table style="margin-left: auto;">
+				<td>
+					Step: 
+					<input id="stepSlider" type='range' class='slider' value='0' min='0' max='100' step='1' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
+					<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input' style="width: 40px;" readonly/>
+				</td>
+			</table>
+		</td></table>
+	</tr>
+	
+	
+	
+</table>
+<script src="Main.js"></script>
+	</body>
+</html>
