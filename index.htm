@@ -1,12 +1,14 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="New_Styles.css">
+		<link rel="stylesheet1" type="text/css" href="Bunny-LowPoly.stl">
 		
 		<script src="Third_Party/three.min.js"></script>
 		<script src="Third_Party/THREEx.WindowResize.js"></script>
 		<script src="Third_Party/OrbitControls.js"></script>
 		<script src="Third_Party/Stats.min.js"></script>
 		<script src="Third_Party/paper-full.min.js"></script>
+		<script src="jquery-3.5.1.min.js"></script> 
 		
 		<script src="ArrayExtensions.js"></script>
 		<script src="STLLoader.js"></script>
@@ -14,24 +16,40 @@
 		<script src="Slicer.js"></script>
 		<script src="SliceViewer.js"></script>
 		
+		<script> 
+    $(function(){
+      $("#includedContent").load("Bunny-LowPoly.stl"); 
+    });
+    </script> 
 	</head>
 	<body>
+	<div id="includedContent">
+	</div>
+
 	<table id="MainTable" >
 
 
 	<tr>
-		<table id="HeaderTable" style="margin: auto;">
+		<table id="HeaderTable" class="search_controls_table">
 			<td>
 				
 				<div class="file_upload">
-				<button type="button" class='grey_btn' onclick="triggerFileInput()" style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Load object">
+				<button type="button" class='grey_btn curved_button' onclick="triggerFileInput()" style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Load object">
 					<img src="search-icon_white_small.png" alt="LOAD" style="vertical-align: middle">
 				</button>
 				
 				</div>
 			</td>
 			<td>
-				<input id="fileNameTextBox" class='text_input' type='text' placeholder="No file selected" style="vertical-align: middle" readonly/>
+				<div>
+					<input id="fileNameTextBox" class='text_input text_input_colors' type='text' placeholder="No file selected" style="vertical-align: middle" readonly/>
+				</div>
+			</td>
+			<td>
+				<button type="button" class="drop_down_button" onclick="triggerFileInput()" 
+					style="vertical-align: middle" title="Load object">
+					
+				</button>
 			</td>
 		</table>
 		<input type="file" id="files" name="files[]" style="visibility: hidden">
@@ -43,7 +61,10 @@
 		<table id="ViewTable" style="width: 100%; box-shadow: inset 1px 1px 4px -2px #9C9C9C, 2px 2px 3px  #1F1F1F; border: 5px outset grey / darkgray; padding: 1px; " cellspacing="7" border="1">
 		<tr>
 	<td style="width: 50%;" class="tableCell">
+	
+				
 		<canvas id="main_canvas_sliceview" style="width: 100%; height: 100%; border: thin inset grey /darkgray;" width="1000" height="1000" class="interactive_canvas"></canvas>
+		
 	</td>
 	<td id="td_canvas" style="width: 50%;" class="tableCell">
 		<canvas id="main_canvas_objectview" style="width: 100%; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
@@ -109,8 +130,8 @@
 	<td>
 		<table style="margin: auto;">
 			<td>
-				<button type="button" class='grey_btn' onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
-					<img src="images/layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
+				<button type="button" class='grey_btn curved_button' onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
+					<img src="layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
 				</button>
 			</td>
 		</table>
@@ -120,7 +141,7 @@
 				<td>
 					Step: 
 					<input id="stepSlider" type='range' class='slider' value='0' min='0' max='100' step='1' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
-					<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input' style="width: 40px;" readonly/>
+					<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input text_input_colors' style="width: 40px;" readonly/>
 				</td>
 			</table>
 		</td></table>
