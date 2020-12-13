@@ -1,14 +1,13 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="New_Styles.css">
-		<link rel="stylesheet1" type="text/css" href="Bunny-LowPoly.stl">
 		
 		<script src="Third_Party/three.min.js"></script>
 		<script src="Third_Party/THREEx.WindowResize.js"></script>
 		<script src="Third_Party/OrbitControls.js"></script>
 		<script src="Third_Party/Stats.min.js"></script>
 		<script src="Third_Party/paper-full.min.js"></script>
-		<script src="jquery-3.5.1.min.js"></script> 
+		<script src="Third_Party/jquery-3.5.1.min.js"></script> 
 		
 		<script src="ArrayExtensions.js"></script>
 		<script src="STLLoader.js"></script>
@@ -18,7 +17,22 @@
 		
 		<script> 
     $(function(){
-      $("#includedContent").load("Bunny-LowPoly.stl"); 
+      $("#includedContent").load("Bunny-LowPoly.stl");
+	  var elem = document.getElementById("includedContent");
+	  // triggerFileInput(elem.innerHTML);
+	  var objectStlLoader = new THREE.STLLoader();
+	  var geometry = objectStlLoader.parse( elem.innerHTML );
+	  
+	  // This is not good. Repair it
+			var slider = document.getElementById('stepSlider');
+			slider.value = 0;
+			var stepTextBox = document.getElementById('stepTextBox');
+			stepTextBox.value = slider.value;
+			// This is not good. Repair it
+			
+			sceneManager.removeModel();
+			sceneManager.addModel(geometry);
+			sliceView.SetObject(geometry);
     });
     </script> 
 	</head>
