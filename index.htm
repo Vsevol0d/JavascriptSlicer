@@ -21,9 +21,7 @@
 	  var elem = document.getElementById("includedContent");
 	  // triggerFileInput(elem.innerHTML);
 	  var objectStlLoader = new THREE.STLLoader();
-	  var enc = new TextEncoder();
-	  var str = enc.encode(elem.innerHTML);
-	  var geometry = objectStlLoader.parse( str );
+	  var geometry = objectStlLoader.parse( elem.innerHTML );
 	  
 	  // This is not good. Repair it
 			var slider = document.getElementById('stepSlider');
