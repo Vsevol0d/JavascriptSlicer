@@ -22,7 +22,8 @@
 	{
       alert("External content loaded successfully!");
 	  var objectStlLoader = new THREE.STLLoader();
-	  var geometry = objectStlLoader.parse( responseTxt );
+	  var elem = document.getElementById("includedContent");
+	  var geometry = objectStlLoader.parse( elem.innerHTML );
 	  sceneManager.removeModel();
 			sceneManager.addModel(geometry);
 			sliceView.SetObject(geometry);
