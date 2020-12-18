@@ -17,11 +17,23 @@
 		
 		<script> 
     $(function(){
-      $("#includedContent").load("Minimug.stl");
-	  var elem = document.getElementById("includedContent");
-	  // triggerFileInput(elem.innerHTML);
+      $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){
+    if(statusTxt == "success")
+	{
+      alert("External content loaded successfully!");
 	  var objectStlLoader = new THREE.STLLoader();
-	  var geometry = objectStlLoader.parse( elem.innerHTML );
+	  var geometry = objectStlLoader.parse( responseTxt );
+	  sceneManager.removeModel();
+			sceneManager.addModel(geometry);
+			sliceView.SetObject(geometry);
+	  }
+    if(statusTxt == "error")
+      alert("Error: " + xhr.status + ": " + xhr.statusText);
+  });
+	  // var elem = document.getElementById("includedContent");
+	  // triggerFileInput(elem.innerHTML);
+	  // var objectStlLoader = new THREE.STLLoader();
+	  // var geometry = objectStlLoader.parse( elem.innerHTML );
 	  
 	  // This is not good. Repair it
 			var slider = document.getElementById('stepSlider');
@@ -29,10 +41,6 @@
 			var stepTextBox = document.getElementById('stepTextBox');
 			stepTextBox.value = slider.value;
 			// This is not good. Repair it
-			
-			sceneManager.removeModel();
-			sceneManager.addModel(geometry);
-			sliceView.SetObject(geometry);
     });
     </script> 
 	</head>
