@@ -33,13 +33,12 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 
 
 	var isBinary = function () {
-		return false;
-		// var expect, face_size, n_faces, reader;
-		// reader = new DataView( binData );
-		// face_size = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
-		// n_faces = reader.getUint32(80,true);
-		// expect = 80 + (32 / 8) + (n_faces * face_size);
-		// return expect === reader.byteLength;
+		var expect, face_size, n_faces, reader;
+		reader = new DataView( binData );
+		face_size = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
+		n_faces = reader.getUint32(80,true);
+		expect = 80 + (32 / 8) + (n_faces * face_size);
+		return expect === reader.byteLength;
 
 	};
 
