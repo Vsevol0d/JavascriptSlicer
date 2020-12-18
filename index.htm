@@ -17,12 +17,7 @@
 		
 		<script> 
     $(function(){
-      $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){
-    if(statusTxt == "success")
-      alert("External content loaded successfully!");
-    if(statusTxt == "error")
-      alert("Error: " + xhr.status + ": " + xhr.statusText);
-  });
+      $("#includedContent").load("Minimug.stl");
 	  var elem = document.getElementById("includedContent");
 	  // triggerFileInput(elem.innerHTML);
 	  var objectStlLoader = new THREE.STLLoader();
