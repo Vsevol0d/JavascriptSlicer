@@ -56,7 +56,7 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 		SetBoundingRectangle(geometry.boundingBox.min, geometry.boundingBox.max); 
 		SlicedObject = null;
 		CurrentLayer = 0;
-		alert('SlicedObject is null');
+		// alert('SlicedObject is null');
 		this.MoveToLayer(CurrentLayer);
 		// this.OnSliceCommand();
 	}
