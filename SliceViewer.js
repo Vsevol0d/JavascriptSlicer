@@ -62,7 +62,7 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 	}
 
 	this.MoveToLayer = function(layerIndex) {
-		alert('SlicedObject.Layers');
+		// alert('SlicedObject.Layers');
 		this.SetLayer(SlicedObject.Layers[layerIndex]);
 	}
 		

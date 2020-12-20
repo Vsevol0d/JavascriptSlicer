@@ -20,7 +20,7 @@
       $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){
     if(statusTxt == "success")
 	{
-      alert("External content loaded successfully!");
+      // alert("External content loaded successfully!");
 	  var objectStlLoader = new THREE.STLLoader();
 	  var elem = document.getElementById("includedContent");
 	  var geometry = objectStlLoader.parse( elem.innerHTML );
