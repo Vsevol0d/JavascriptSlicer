@@ -40,7 +40,7 @@ function triggerFileInput() {
 		if (el.nodeName == "A")
 		{
 			var localFileName = fileName;
-			loadLocalModelFile(localFileName);
+			loadLocalModelFile('TestModels/' + localFileName);
 			// alert('file selected:' + fileName);
 		}
 		
