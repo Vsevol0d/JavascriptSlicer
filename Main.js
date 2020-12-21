@@ -39,7 +39,7 @@ function triggerFileInput() {
 		var fileName = el.innerHTML;
 		if (el.nodeName == "A")
 		{
-			var localFileName = "Minimug.stl";
+			var localFileName = fileName;
 			loadLocalModelFile(localFileName);
 			// alert('file selected:' + fileName);
 		}
