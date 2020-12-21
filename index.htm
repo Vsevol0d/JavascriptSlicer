@@ -15,35 +15,35 @@
 		<script src="Slicer.js"></script>
 		<script src="SliceViewer.js"></script>
 		
-		<script> 
-    $(function(){
-      $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){
-    if(statusTxt == "success")
-	{
-      // alert("External content loaded successfully!");
-	  var objectStlLoader = new THREE.STLLoader();
-	  var elem = document.getElementById("includedContent");
-	  var geometry = objectStlLoader.parse( elem.innerHTML );
-	  sceneManager.removeModel();
-			sceneManager.addModel(geometry);
-			sliceView.SetObject(geometry);
-	  }
-    if(statusTxt == "error")
-      alert("Error: " + xhr.status + ": " + xhr.statusText);
-  });
-	  // var elem = document.getElementById("includedContent");
-	  // triggerFileInput(elem.innerHTML);
-	  // var objectStlLoader = new THREE.STLLoader();
-	  // var geometry = objectStlLoader.parse( elem.innerHTML );
+		<!-- <script>  -->
+    <!-- $(function(){ -->
+      <!-- $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){ -->
+		<!-- if(statusTxt == "success") -->
+		<!-- { -->
+		  <!-- // alert("External content loaded successfully!"); -->
+		  <!-- var objectStlLoader = new THREE.STLLoader(); -->
+		  <!-- var elem = document.getElementById("includedContent"); -->
+		  <!-- var geometry = objectStlLoader.parse( elem.innerHTML ); -->
+		  <!-- sceneManager.removeModel(); -->
+				<!-- sceneManager.addModel(geometry); -->
+				<!-- sliceView.SetObject(geometry); -->
+		  <!-- } -->
+		  <!-- if(statusTxt == "error") -->
+			<!-- alert("Error: " + xhr.status + ": " + xhr.statusText); -->
+		<!-- }); -->
+	  <!-- // var elem = document.getElementById("includedContent"); -->
+	  <!-- // triggerFileInput(elem.innerHTML); -->
+	  <!-- // var objectStlLoader = new THREE.STLLoader(); -->
+	  <!-- // var geometry = objectStlLoader.parse( elem.innerHTML ); -->
 	  
-	  // This is not good. Repair it
-			var slider = document.getElementById('stepSlider');
-			slider.value = 0;
-			var stepTextBox = document.getElementById('stepTextBox');
-			stepTextBox.value = slider.value;
-			// This is not good. Repair it
-    });
-    </script> 
+	  <!-- // This is not good. Repair it -->
+			<!-- var slider = document.getElementById('stepSlider'); -->
+			<!-- slider.value = 0; -->
+			<!-- var stepTextBox = document.getElementById('stepTextBox'); -->
+			<!-- stepTextBox.value = slider.value; -->
+			<!-- // This is not good. Repair it -->
+    <!-- }); -->
+    <!-- </script>  -->
 	</head>
 	<body>
 	<div id="includedContent" style="display: none">
@@ -64,15 +64,27 @@
 				</div>
 			</td>
 			<td>
-				<div>
+				<div class="dropdown">
 					<input id="fileNameTextBox" class='text_input text_input_colors' type='text' placeholder="No file selected" style="vertical-align: middle" readonly/>
+					<button type="button" class="drop_down_button" onclick="expandModelItemsList()"
+						style="vertical-align: middle">
+					</button>
+					<div id="objectModelsDropDownList" class="dropdown-content">
+						<p style="padding: 0 0 0 10px">Sample models</p>
+						<a href="#" onclick="selectModelFile()">Bunny-LowPoly.stl</a>
+						<a href="#">Couvercle.stl</a>
+						<a href="#">Dodecaeder_for_Dual_Extrusion_1.stl</a>
+						<a href="#">FiboBall_square.stl</a>
+						<a href="#">Finn_Sword_3.stl</a>
+						<a href="#">gear.stl</a>
+						<a href="#">Minimug.stl</a>
+						<a href="#">Pentagon_Star.stl</a>
+						<a href="#">piano.stl</a>
+						<a href="#">sink_plug-v04-pin.stl</a>
+						<a href="#">sink_plug-v05-plug.stl</a>
+						<a href="#">ThreadGaugeConeSAE.stl</a>
+					</div>
 				</div>
-			</td>
-			<td>
-				<button type="button" class="drop_down_button" onclick="triggerFileInput()" 
-					style="vertical-align: middle" title="Load object">
-					
-				</button>
 			</td>
 		</table>
 		<input type="file" id="files" name="files[]" style="visibility: hidden">

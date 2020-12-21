@@ -3,6 +3,70 @@ function triggerFileInput() {
 		var filesInput = document.getElementById('files');
 		filesInput.click();
 	}
+	
+	function loadLocalModelFile(localFileName)
+	{
+		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
+		if(statusTxt == "success")
+		{
+		  // alert("External content loaded successfully!");
+		  var objectStlLoader = new THREE.STLLoader();
+		  var elem = document.getElementById("includedContent");
+		  var geometry = objectStlLoader.parse( elem.innerHTML );
+		  sceneManager.removeModel();
+				sceneManager.addModel(geometry);
+				sliceView.SetObject(geometry);
+		  }
+		  if(statusTxt == "error")
+			alert("Error: " + xhr.status + ": " + xhr.statusText);
+		});
+	  // var elem = document.getElementById("includedContent");
+	  // triggerFileInput(elem.innerHTML);
+	  // var objectStlLoader = new THREE.STLLoader();
+	  // var geometry = objectStlLoader.parse( elem.innerHTML );
+	  
+	  // This is not good. Repair it
+			var slider = document.getElementById('stepSlider');
+			slider.value = 0;
+			var stepTextBox = document.getElementById('stepTextBox');
+			stepTextBox.value = slider.value;
+			// This is not good. Repair it
+	}
+	
+	var objectModelsDropDownList = document.getElementById('objectModelsDropDownList');
+	objectModelsDropDownList.addEventListener("mousedown", function( event ) {
+		var el = document.elementFromPoint(event.clientX, event.clientY);
+		var fileName = el.innerHTML;
+		if (el.nodeName == "A")
+		{
+			var localFileName = "Minimug.stl";
+			loadLocalModelFile(localFileName);
+			// alert('file selected:' + fileName);
+		}
+		
+	}, true);
+	
+	var objectModelsDropDownListIsShown = false;
+	function expandModelItemsList(/*dropDownElementId*/) {
+		var dropDownElement = document.getElementById('objectModelsDropDownList');
+		dropDownElement.style.display = 'block';
+		objectModelsDropDownListIsShown = true;
+		var modelNameField = document.getElementById('fileNameTextBox');
+		modelNameField.focus();
+	}
+	function collapseModelItemsList(/*dropDownElementId*/) {
+		var dropDownElement = document.getElementById('objectModelsDropDownList');
+		dropDownElement.style.display = 'none';
+		objectModelsDropDownListIsShown = false;
+	}
+	
+	var selectedModelNameField = document.getElementById('fileNameTextBox');
+	selectedModelNameField.addEventListener("blur", function( event ) {
+		if (objectModelsDropDownListIsShown)
+		{
+			collapseModelItemsList();
+		}
+	}, true);
 
 	var view_canvas = document.getElementById('main_canvas_objectview');
 	var objectStlLoader = new THREE.STLLoader();
