@@ -10,6 +10,10 @@ function SceneManager(scopeCanvas) {
   var AlignCoefficient = 1.0; 
   var Alpha;
   
+  var isObjectRotated = false;
+  var previousX = -1;
+  var previousY = -1;
+  
   var slicePlanes = [];
   var defaultBoundingBox = {min: {x: -15, y: -15, z: -15}, max: {x: 15, y: 15, z: 15}};
   var currentSlicePlane = 0;
@@ -30,7 +34,7 @@ function SceneManager(scopeCanvas) {
 	Alpha = camera.fov / 2; Alpha = Alpha * 2 * Math.PI / 360;
     scene.add(camera);
     camera.position.set(-27, 15, -25);
-    camera.lookAt(new THREE.Vector3(0,0,0));
+    // camera.lookAt(new THREE.Vector3(0,0,0));
 
     // prepare renderer
     renderer = new THREE.WebGLRenderer({ canvas: scopeCanvas, antialias: true, alpha: true });
@@ -54,6 +58,8 @@ function SceneManager(scopeCanvas) {
     controls.target = new THREE.Vector3(0, 0, 0);
     controls.maxDistance = 3000;
 	controls.noPan = true;
+	// this.DisableCameraRotation();
+	// https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
 
     // prepare clock
     clock = new THREE.Clock();
@@ -78,7 +84,102 @@ function SceneManager(scopeCanvas) {
     camera.add(dirLight.target);
 	GeneratePlanes(defaultBoundingBox);
   }
+  
+  function ObjectManipulationMouseDown(event) {
+
+	isObjectRotated = true;
+  }
+  function ObjectManipulationMouseMove(event) {
+
+	if (isObjectRotated)
+		{
+			if (previousX == -1 || previousY == -1)
+			{
+				previousX = event.clientX;
+				previousY = event.clientY;
+			}
+			else
+			{
+				var deltaX = event.clientX - previousX;
+				var deltaY = event.clientY - previousY;
+				var angleXInRadians = deltaX;
+				var angleYInRadians = deltaY;
+				
+				currentModel.rotation.x = -Math.PI / 360 * angleXInRadians;
+				currentModel.rotation.z = -Math.PI / 360 * angleYInRadians;
+				
+				//alert('rotation by ' + angleXInRadians);
+				// currentModel.matrix.makeRotationX(angleXInRadians);
+				// currentModel.matrix.makeRotationX(angleYInRadians);
+				// renderer.render(scene, camera);
+				//alert('rotation by ' + angleXInRadians);
+			}
+		}
+  }
+  function ObjectManipulationMouseUp(event) {
+
+	 isObjectRotated = false;
+	 previousX = -1;
+	 previousY = -1;
+  }
+  
+  function onPositionChange(o) {
+
+	alert(camera.up.z);
+	//Geometry.matrix.makeRotationX(angleInRadians);
+	//Geometry.matrix.makeRotationY(angleInRadians);
+	//Geometry.matrix.makeRotationZ(angleInRadians);
+	// allControls = allControls.Where(x => x.Data.BoundingRectangle.Bottom - x.Data.BoundingRectangle.Top > 0).ToList();
+	// https://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%82%D1%80%D0%B8%D1%86%D0%B0_%D0%BF%D0%BE%D0%B2%D0%BE%D1%80%D0%BE%D1%82%D0%B0
+	// x2 = x * x, xy = x * y, xz = x * z, y2 = y * y, yz = y * z, z2 = z * z
+	// cosA = cos(A), cosA1 = 1 - cos(A), sinA = sin(A)
+	// 
+	// cosA + cosA1 * x2 		cosA1 * xy - sinA * z		cosA1 * xz - sinA * y
+	// 
+	//Geometry.matrix.makeScale ( x : Float, y : Float, z : Float );
+	
+	
+    console.log("position changed in object");
+    console.log(o);
+  }
+
+  this.EnableCameraRotation = function() {
+	  controls.enabled = true;
+	  // controls.addEventListener('change', onPositionChange);
+  }
+  this.DisableCameraRotation = function() {
+	  controls.enabled = false;
+	  // controls.removeEventListener('change', onPositionChange);
+  }
+  
+  this.EnableObjectRotation = function() {
+	  controls.enabled = false;
+	  scopeCanvas.addEventListener('mousedown', ObjectManipulationMouseDown, true);
+	  scopeCanvas.addEventListener('mousemove', ObjectManipulationMouseMove, true);
+	  scopeCanvas.addEventListener('mouseup', ObjectManipulationMouseUp, true);
+  }
+  this.DisableObjectRotation = function() {
+	  scopeCanvas.removeEventListener('mousedown', ObjectManipulationMouseDown, true);
+	  scopeCanvas.removeEventListener('mousemove', ObjectManipulationMouseMove, true);
+	  scopeCanvas.removeEventListener('mouseup', ObjectManipulationMouseUp, true);
+  }
+  
+  this.GetCurrentGeometry = function() {
+	  alert('getting ' + currentModel);
+	  // item.geometry.dispose();
+	  
+	  //currentModel.geometry.verticesNeedUpdate = true;
+	  //var clone = currentModel.geometry.clone();
+	  //currentModel.geometry.verticesNeedUpdate = false;
+	  var c = currentModel.clone();
+	  c.geometry.rotateX(currentModel.rotation.x);
+	  c.geometry.rotateZ(currentModel.rotation.z);
+	  
+	  return c.geometry;
+  }
+  
   var currentModel = null;
+  var currentGeometry = null;
   this.addModel = function(geometry) {
 	
 	if (geometry == null || geometry == undefined)
@@ -89,6 +190,7 @@ function SceneManager(scopeCanvas) {
 	AdaptToViewPort(geometry);
 	
 	var material = new THREE.MeshNormalMaterial();
+	
 	var mesh = new THREE.Mesh(geometry, material);
 	scene.add(mesh);
 	
@@ -153,6 +255,7 @@ function SceneManager(scopeCanvas) {
   
   this.OnObjectChanged = function(geometry) {
 	var bBox = geometry.boundingBox;
+	currentGeometry = geometry;
     RemoveCurrentPlanes();
 	currentSlicePlane = 0;
     GeneratePlanes(bBox);

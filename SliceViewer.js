@@ -51,10 +51,65 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 	var Geometry = null;
 	var SlicedObject = null;
 	
+	this.SetSlicedObject = function(newValue) {
+		
+		SlicedObject = newValue;
+		this.SetSlicedObjectControlsVisibility(SlicedObject != null);
+	}
+	
+	this.SetInputGeometry = function(newValue) {
+		
+		Geometry = newValue;
+		RemoveLayer();
+		this.SetGeometryControlsVisibility(Geometry != null);
+	}
+	
+	this.SetGeometryControlsVisibility = function(isVisible) {
+		
+		var stepSlider = document.getElementById('stepSlider');
+		var stepTextBox = document.getElementById('stepTextBox');
+		var sliceButton = document.getElementById('sliceButtonCell');
+		
+		if (isVisible)
+		{
+			stepSlider.disabled = false;
+			stepTextBox.disabled = false;
+			sliceButton.disabled = false;
+		}
+		else
+		{
+			stepSlider.disabled = true;
+			stepTextBox.disabled = true;
+			sliceButton.disabled = true;
+		}
+	}
+	
+	this.SetSlicedObjectControlsVisibility = function(isVisible) {
+
+		var squaredOne = document.getElementById('squaredOne');
+		var squaredTwo = document.getElementById('squaredTwo');
+		var squaredThree = document.getElementById('squaredThree');
+
+		if (isVisible)
+		{
+			squaredOne.disabled = false;
+			squaredTwo.disabled = false;
+			squaredThree.disabled = false;
+		}
+		else
+		{
+			squaredOne.disabled = true;
+			squaredTwo.disabled = true;
+			squaredThree.disabled = true;
+		}
+	}
+	
 	this.SetObject = function(geometry) {
-		Geometry = geometry;
+		// Geometry = geometry;
+		this.SetInputGeometry(geometry);
 		SetBoundingRectangle(geometry.boundingBox.min, geometry.boundingBox.max); 
-		SlicedObject = null;
+		// SlicedObject = null;
+		this.SetSlicedObject(null);
 		CurrentLayer = 0;
 		// alert('SlicedObject is null');
 		this.MoveToLayer(CurrentLayer);
@@ -63,7 +118,10 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 
 	this.MoveToLayer = function(layerIndex) {
 		// alert('SlicedObject.Layers');
-		this.SetLayer(SlicedObject.Layers[layerIndex]);
+		if (SlicedObject != null)
+		{
+			this.SetLayer(SlicedObject.Layers[layerIndex]);
+		}
 	}
 		
 	this.OnSliceCommand = function() {
@@ -73,7 +131,8 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 			return;
 		}
 		var slicer = new FastSlicer(Geometry);
-		SlicedObject = slicer.Slice(this.step);
+		// SlicedObject = slicer.Slice(this.step);
+		this.SetSlicedObject(slicer.Slice(this.step));
 		if (SlicedObject == null) {
 			alert('Cannot slice object');
 			return;
@@ -397,4 +456,7 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
     this.SetIsFillingEnabled = function(newValue) {
         isFillingEnabled = newValue;
     }
+	
+	this.SetSlicedObject(null);
+	this.SetInputGeometry(null);
 }

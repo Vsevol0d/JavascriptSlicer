@@ -57,7 +57,8 @@
 			<td>
 				
 				<div class="file_upload">
-				<button type="button" class='grey_btn curved_button' onclick="triggerFileInput()" style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Load object">
+				<button type="button" class='grey_btn curved_button' onclick="triggerFileInput()" 
+				style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Open .stl model file">
 					<img src="search-icon_white_small.png" alt="LOAD" style="vertical-align: middle">
 				</button>
 				
@@ -70,6 +71,7 @@
 						style="vertical-align: middle">
 					</button>
 					<div id="objectModelsDropDownList" class="dropdown-content">
+						<p style="padding: 0 0 0 10px">Recent models</p>
 						<p style="padding: 0 0 0 10px">Sample models</p>
 						<a href="#" onclick="selectModelFile()">Bunny-LowPoly.stl</a>
 						<a href="#">Couvercle.stl</a>
@@ -164,8 +166,9 @@
 	</td>
 	<td>
 		<table style="margin: auto;">
-			<td>
-				<button type="button" class='grey_btn curved_button' onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
+			<td id="sliceButtonCell">
+				<button id="sliceButton" type="button" class='grey_btn curved_button'
+				onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
 					<img src="layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
 				</button>
 			</td>
@@ -174,6 +177,24 @@
 		<td>
 			<table style="margin-left: auto;">
 				<td>
+				<div>
+				<input 
+				  type="radio" width='50' height='50' name='e'
+				  id="RotateСameraRadioButton" class="input-hidden" />
+				<label for="RotateСameraRadioButton" class='rotation_radio_button'>
+				  <img width='50' height='50'
+					src="C:\Users\VVM\Downloads\axis_pivot_view_rotate_icon (4).png" 
+					alt="Rotate camera" />
+				</label>
+				<input 
+				  type="radio" width='50' height='50' name='e'
+				  id="RotateObjectRadioButton" class="input-hidden" />
+				<label for="RotateObjectRadioButton" class='rotation_radio_button'>
+				  <img width='50' height='50'
+					src="C:\Users\VVM\Downloads\axis_pivot_view_rotate_icon (5).png" 
+					alt="Rotate object" />
+				</label>
+				</div>
 					Step: 
 					<input id="stepSlider" type='range' class='slider' value='0' min='0' max='100' step='1' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
 					<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input text_input_colors' style="width: 40px;" readonly/>

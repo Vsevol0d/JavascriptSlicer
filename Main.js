@@ -4,19 +4,26 @@ function triggerFileInput() {
 		filesInput.click();
 	}
 	
+	var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "TestModels/Minimug.stl", false ); // false for synchronous request
+    xmlHttp.send( null );
+    alert(xmlHttp.responseText);
+	
 	function loadLocalModelFile(localFileName)
 	{
 		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
 		if(statusTxt == "success")
 		{
-		  // alert("External content loaded successfully!");
-		  var objectStlLoader = new THREE.STLLoader();
-		  var elem = document.getElementById("includedContent");
-		  var geometry = objectStlLoader.parse( elem.innerHTML );
-		  sceneManager.removeModel();
-				sceneManager.addModel(geometry);
-				sliceView.SetObject(geometry);
-		  }
+			// alert("External content loaded successfully!");
+			var objectStlLoader = new THREE.STLLoader();
+			var elem = document.getElementById("includedContent");
+			var geometry = objectStlLoader.parse( elem.innerHTML );
+		  
+			LoadModel(localFileName, geometry);
+		    // sceneManager.removeModel();
+			// sceneManager.addModel(geometry);
+			// sliceView.SetObject(geometry);
+		}
 		  if(statusTxt == "error")
 			alert("Error: " + xhr.status + ": " + xhr.statusText);
 		});
@@ -67,6 +74,26 @@ function triggerFileInput() {
 			collapseModelItemsList();
 		}
 	}, true);
+	
+	var rotateСameraRadioButton = document.getElementById('RotateСameraRadioButton');
+	rotateСameraRadioButton.addEventListener("change", function( event ) {
+		if(rotateСameraRadioButton.checked) {
+			sceneManager.EnableCameraRotation();
+		} else { 
+		// This doesn't work
+		// https://stackoverflow.com/questions/11173685/how-to-detect-radio-button-deselect-event
+			sceneManager.DisableCameraRotation();
+		}
+	}, true);
+	var rotateObjectRadioButton = document.getElementById('RotateObjectRadioButton');
+	rotateObjectRadioButton.addEventListener('change', function( event ) {
+		if(rotateObjectRadioButton.checked) {
+			sceneManager.EnableObjectRotation();
+		} else { 
+			sceneManager.DisableObjectRotation();
+		}
+	}, true);
+	
 
 	var view_canvas = document.getElementById('main_canvas_objectview');
 	var objectStlLoader = new THREE.STLLoader();
@@ -111,7 +138,10 @@ function triggerFileInput() {
 	}
 	
 	function sliceButtonClicked(event) {
+		// sliceView.SetInputGeometry(sceneManager.GetCurrentGeometry());
+		sliceView.SetObject(sceneManager.GetCurrentGeometry());
 		sliceView.OnSliceCommand();
+		alert('Geo after');
 	}
 	
 	var OnResize = function(event) {
@@ -143,11 +173,7 @@ function triggerFileInput() {
 			return;
 		}
 		
-		var fileNameTextBox = document.getElementById('fileNameTextBox');
-		fileNameTextBox.value = f.name;
-		
 		objectStlLoader.load(f, function(geometry){
-
 			// This is not good. Repair it
 			var slider = document.getElementById('stepSlider');
 			slider.value = 0;
@@ -155,11 +181,19 @@ function triggerFileInput() {
 			stepTextBox.value = slider.value;
 			// This is not good. Repair it
 			
-			sceneManager.removeModel();
-			sceneManager.addModel(geometry);
-			sliceView.SetObject(geometry);
+			LoadModel(f.name, geometry);
+			
 		});
     }
+	
+	function LoadModel(modelName, geometry)
+	{
+		var fileNameTextBox = document.getElementById('fileNameTextBox');
+		fileNameTextBox.value = modelName;
+		ceneManager.removeModel();
+		sceneManager.addModel(geometry);
+		sliceView.SetObject(geometry);
+	}
 
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
