@@ -15,8 +15,13 @@
 		<script src="Slicer.js"></script>
 		<script src="SliceViewer.js"></script>
 		
-		<!-- <script>  -->
-    <!-- $(function(){ -->
+		<script>
+    $(function(){
+	alert('xmlHttp.responseText');
+	var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "TestModels/Minimug.stl", false ); // false for synchronous request
+    xmlHttp.send( null );
+    alert(xmlHttp.responseText);
       <!-- $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){ -->
 		<!-- if(statusTxt == "success") -->
 		<!-- { -->
@@ -42,8 +47,8 @@
 			<!-- var stepTextBox = document.getElementById('stepTextBox'); -->
 			<!-- stepTextBox.value = slider.value; -->
 			<!-- // This is not good. Repair it -->
-    <!-- }); -->
-    <!-- </script>  -->
+    });
+    </script>
 	</head>
 	<body>
 	<div id="includedContent" style="display: none">

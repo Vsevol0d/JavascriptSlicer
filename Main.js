@@ -4,11 +4,6 @@ function triggerFileInput() {
 		filesInput.click();
 	}
 	
-	var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "TestModels/Minimug.stl", false ); // false for synchronous request
-    xmlHttp.send( null );
-    alert(xmlHttp.responseText);
-	
 	function loadLocalModelFile(localFileName)
 	{
 		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
