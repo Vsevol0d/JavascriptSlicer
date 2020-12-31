@@ -19,7 +19,7 @@
     $(function(){
 	alert('xmlHttp.responseText');
 	var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "TestModels/Minimug.stl", false ); // false for synchronous request
+    xmlHttp.open( "GET", "https://www.thingiverse.com/search?type=things&q=&sort=popular&posted_after=now-30d", false ); // false for synchronous request
     xmlHttp.send( null );
     alert(xmlHttp.responseText);
       <!-- $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){ -->
