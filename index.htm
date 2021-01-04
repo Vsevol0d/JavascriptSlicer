@@ -189,7 +189,7 @@
 				  id="RotateСameraRadioButton" class="input-hidden" />
 				<label for="RotateСameraRadioButton" class='rotation_radio_button'>
 				  <img width='50' height='50'
-					src="C:\Users\VVM\Downloads\axis_pivot_view_rotate_icon (4).png" 
+					src="axis_pivot_camera_view_rotate_icon.png" 
 					alt="Rotate camera" />
 				</label>
 				<input 
@@ -197,9 +197,12 @@
 				  id="RotateObjectRadioButton" class="input-hidden" />
 				<label for="RotateObjectRadioButton" class='rotation_radio_button'>
 				  <img width='50' height='50'
-					src="C:\Users\VVM\Downloads\axis_pivot_view_rotate_icon (5).png" 
+					src="axis_pivot_object_view_rotate_icon.png" 
 					alt="Rotate object" />
 				</label>
+				<input type="range" min="1" max="100" value="50" >
+				<p class='p_in_range'>Model height</p>
+				<input type="range" value="0">
 				</div>
 					Step: 
 					<input id="stepSlider" type='range' class='slider' value='0' min='0' max='100' step='1' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>

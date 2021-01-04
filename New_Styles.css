@@ -176,7 +176,76 @@ input[type=radio] + label>img {
   transition: 500ms all;
 }
 
-
+/*<table>
+	<tr>
+	<td>
+		<p>Model height</p>
+<input type="range" value="0">
+	</td>
+	</tr>
+</table>
+*/
+	.p_in_range {
+		position: absolute;
+		z-index: 10;
+		color: white;
+		padding:center;
+	}
+	input {
+		position: relative;
+	}
+	
+	input[type="range"] {
+		outline: 0;
+		border: 0;
+		border-radius: 5px;
+		width: 100px;
+		max-width: 100%;
+		/* Chrome */
+		@media screen and (-webkit-min-device-pixel-ratio:0) {
+			& {
+				overflow: hidden;
+				height: 40px;
+				-webkit-appearance: none;
+				background-color: #ddd;
+			}
+			&::-webkit-slider-runnable-track {
+				height: 40px;
+				-webkit-appearance: none;
+				color: #444;
+			}
+			&::-webkit-slider-thumb {
+				width: 1px;
+				-webkit-appearance: none;
+				height: 40px;
+				cursor: ew-resize;
+				background: #fff;
+				box-shadow: -340px 0 0 340px #1597ff, inset 0 0 0 1px #1597ff;
+				border-radius: 50%;
+				transition: box-shadow 0.2s ease-in-out;
+				position: relative;
+				// top: 1px;
+			}
+			&:active::-webkit-slider-thumb {
+				background: #fff;
+				box-shadow: -340px 0 0 340px #1597ff, inset 1px #1597ff;
+			}
+		}
+		/* Firefox */
+		&::-moz-range-progress {
+			background-color: #43e5f7; 
+		}
+		&::-moz-range-track {  
+			background-color: #9a905d;
+		}
+		/* IE */
+		&::-ms-fill-lower {
+			background-color: #43e5f7; 
+		}
+		&::-ms-fill-upper {  
+			background-color: #9a905d;
+		}
+	}
 
 
 
