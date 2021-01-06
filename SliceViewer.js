@@ -68,39 +68,45 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 		
 		var stepSlider = document.getElementById('stepSlider');
 		var stepTextBox = document.getElementById('stepTextBox');
-		var sliceButton = document.getElementById('sliceButtonCell');
+		var modelHeightSlider = document.getElementById('modelHeightSlider');
+		var modelHeightTextBox = document.getElementById('modelHeightTextBox');
+		var sliceButton = document.getElementById('sliceButton');
 		
 		if (isVisible)
 		{
 			stepSlider.disabled = false;
 			stepTextBox.disabled = false;
 			sliceButton.disabled = false;
+			modelHeightSlider.disabled = false;
+			modelHeightTextBox.disabled = false;
 		}
 		else
 		{
 			stepSlider.disabled = true;
 			stepTextBox.disabled = true;
 			sliceButton.disabled = true;
+			modelHeightSlider.disabled = true;
+			modelHeightTextBox.disabled = true;
 		}
 	}
 	
 	this.SetSlicedObjectControlsVisibility = function(isVisible) {
 
-		var squaredOne = document.getElementById('squaredOne');
-		var squaredTwo = document.getElementById('squaredTwo');
-		var squaredThree = document.getElementById('squaredThree');
+		var showPointsCheckbox = document.getElementById('ShowPointsCheckbox');
+		var showLinesCheckbox = document.getElementById('ShowLinesCheckbox');
+		var showContoursCheckbox = document.getElementById('ShowContoursCheckbox');
 
 		if (isVisible)
 		{
-			squaredOne.disabled = false;
-			squaredTwo.disabled = false;
-			squaredThree.disabled = false;
+			showPointsCheckbox.disabled = false;
+			showLinesCheckbox.disabled = false;
+			showContoursCheckbox.disabled = false;
 		}
 		else
 		{
-			squaredOne.disabled = true;
-			squaredTwo.disabled = true;
-			squaredThree.disabled = true;
+			showPointsCheckbox.disabled = true;
+			showLinesCheckbox.disabled = true;
+			showContoursCheckbox.disabled = true;
 		}
 	}
 	

@@ -8,6 +8,7 @@
 		<script src="Third_Party/Stats.min.js"></script>
 		<script src="Third_Party/paper-full.min.js"></script>
 		<script src="Third_Party/jquery-3.5.1.min.js"></script> 
+		<script src="Third_Party/jquery-resizable.js"></script> 
 		
 		<script src="ArrayExtensions.js"></script>
 		<script src="STLLoader.js"></script>
@@ -17,204 +18,210 @@
 		
 		<script>
     $(function(){
-	alert('xmlHttp.responseText');
-	var xmlHttp = new XMLHttpRequest();
-    // xmlHttp.open( "GET", "https://cdn.thingiverse.com/renders/08/38/26/68/27/ab7b8fe9aad3769051dd94fa7434b742_thumb_medium.jpg", false ); // false for synchronous request
-	xmlHttp.open( "GET", "{/search/Minimug/}", false);
-    xmlHttp.send( null );
-    alert(xmlHttp.responseText);
-      <!-- $("#includedContent").load("Minimug.stl", function(responseTxt, statusTxt, xhr){ -->
-		<!-- if(statusTxt == "success") -->
-		<!-- { -->
-		  <!-- // alert("External content loaded successfully!"); -->
-		  <!-- var objectStlLoader = new THREE.STLLoader(); -->
-		  <!-- var elem = document.getElementById("includedContent"); -->
-		  <!-- var geometry = objectStlLoader.parse( elem.innerHTML ); -->
-		  <!-- sceneManager.removeModel(); -->
-				<!-- sceneManager.addModel(geometry); -->
-				<!-- sliceView.SetObject(geometry); -->
-		  <!-- } -->
-		  <!-- if(statusTxt == "error") -->
-			<!-- alert("Error: " + xhr.status + ": " + xhr.statusText); -->
-		<!-- }); -->
-	  <!-- // var elem = document.getElementById("includedContent"); -->
-	  <!-- // triggerFileInput(elem.innerHTML); -->
-	  <!-- // var objectStlLoader = new THREE.STLLoader(); -->
-	  <!-- // var geometry = objectStlLoader.parse( elem.innerHTML ); -->
-	  
-	  <!-- // This is not good. Repair it -->
-			<!-- var slider = document.getElementById('stepSlider'); -->
-			<!-- slider.value = 0; -->
-			<!-- var stepTextBox = document.getElementById('stepTextBox'); -->
-			<!-- stepTextBox.value = slider.value; -->
-			<!-- // This is not good. Repair it -->
+		alert('xmlHttp.responseText');
+		var xmlHttp = new XMLHttpRequest();
+		// xmlHttp.open( "GET", "https://cdn.thingiverse.com/renders/08/38/26/68/27/ab7b8fe9aad3769051dd94fa7434b742_thumb_medium.jpg", false ); // false for synchronous request
+		xmlHttp.open( "GET", "{/search/Minimug/}", false);
+		xmlHttp.send( null );
+		alert(xmlHttp.responseText);
     });
     </script>
 	</head>
 	<body>
-	<div id="includedContent" style="display: none">
-	</div>
+	
+	<!-- Help container for loading local and saved models -->
+	<div id="includedContent" style="display: none"></div>
 
-	<table id="MainTable" >
-
-
-	<tr>
-		<table id="HeaderTable" class="search_controls_table">
-			<td>
-				
-				<div class="file_upload">
-				<button type="button" class='grey_btn curved_button' onclick="triggerFileInput()" 
-				style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Open .stl model file">
-					<img src="search-icon_white_small.png" alt="LOAD" style="vertical-align: middle">
-				</button>
-				
+	<!-- Main viewer table-->
+	<table id="MainTable">
+	
+		<!-- First row with searching TextBox and buttons -->
+		<tr>
+			<table id="HeaderTable" class="search_controls_table">
+				<td>
+					
+					<div class="file_upload">
+					<button type="button" style='border-radius: 5px 0 0 5px;' class='grey_btn curved_button' onclick="triggerFileInput()" 
+					style="vertical-align: middle" data-toggle="tooltip" data-placement="bottom" title="Open .stl model file">
+						<img src="open-model-icon.png" width='25' height='25' alt="LOAD" style="vertical-align: middle">
+					</button>
+					
+					</div>
+				</td>
+				<td>
+					<div class="dropdown">
+						<input id="fileNameTextBox" 
+							style="vertical-align: middle; height: 39px; margin: 0 0 0 -1px; padding: 5px 5px; font-size: 15px;
+								box-shadow: inset 1px 1px 4px -1px #9C9C9C, 2px 2px 3px  #1F1F1F;" 
+							class='text_input text_input_colors' type='text' placeholder="No file selected" readonly/>
+						<button type="button" onclick="expandModelItemsList()"
+							style="vertical-align: middle; height: 39px; margin: 0 0 0 1px; border-radius: 0 5px 5px 0;
+								float: right" class="drop_down_button grey_btn curved_button">
+								<img src="drop-down-icon.png" width='15' height='15' alt="EXPAND" style="vertical-align: middle; margin: 0 0 0 -4px;">
+						</button>
+						<div id="objectModelsDropDownList" style="opacity: 0.9; border-radius: 0 0 5px 5px;" class="dropdown-content text_input_colors">
+							<!-- <p>Recent models</p> -->
+							<p style="background-color: #888888; margin: 0 0 0 0">Sample models</p>
+							<div class='box' style="height:1px;width:100%;background:#888888;"></div>
+							<a href="#">Bunny-LowPoly.stl</a>
+							<a href="#">Couvercle.stl</a>
+							<a href="#">Dodecaeder_for_Dual_Extrusion_1.stl</a>
+							<a href="#">FiboBall_square.stl</a>
+							<a href="#">Finn_Sword_3.stl</a>
+							<a href="#">gear.stl</a>
+							<a href="#">Minimug.stl</a>
+							<a href="#">Pentagon_Star.stl</a>
+							<a href="#">piano.stl</a>
+							<a href="#">sink_plug-v04-pin.stl</a>
+							<a href="#">sink_plug-v05-plug.stl</a>
+							<a href="#">ThreadGaugeConeSAE.stl</a>
+						</div>
+					</div>
+				</td>
+			</table>
+			<input type="file" id="files" name="files[]" style="visibility: hidden">
+		</tr>
+	
+		<!-- Second row with Slice and Model viewers -->
+		<tr>
+			<table id="ViewTable" style="width: 100%; box-shadow: inset 1px 1px 4px -2px #9C9C9C, 2px 2px 3px  #1F1F1F; border: 5px outset grey / darkgray; padding: 1px; " cellspacing="7" border="1">
+				<tr>
+					<td>
+						<div class='panel-container' style="width: 100%;">
+						
+							<!-- Slice viewer -->
+							<div style="height: 600px; width: 50%" class="tableCell2 panel-left">
+								<div class='checkboxes_group' title='Show slice vertices'>
+									<input type="checkbox" id="ShowPointsCheckbox" class="input-hidden"/>
+									<label for="ShowPointsCheckbox" class='controls_hover'>
+									  <img src="points-icon.png" alt="Show slice vertices" />
+									</label>
+								</div>
+								<div class='box checkboxes_group' title='Show slice edge lines' style='margin: 30px 0 0 0'>
+									<input type="checkbox" id="ShowLinesCheckbox" class="input-hidden"/>
+									<label for="ShowLinesCheckbox" class='controls_hover'>
+									  <img src="lines-icon.png" alt="Show slice edge lines" />
+									</label>
+								</div>
+								<div class='box checkboxes_group' title='Show model sliced areas' style='margin: 60px 0 0 0'>
+									<input type="checkbox" id="ShowContoursCheckbox" class="input-hidden"/>
+									<label for="ShowContoursCheckbox" class='controls_hover'>
+									  <img src="contours-icon.png" alt="Show model sliced areas" />
+									</label>
+								</div>
+								<canvas id="main_canvas_sliceview" style="background-color: #00ff00; margin: -10px 0 0 -10px; width: 650px; height: 620px; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
+							</div>
+							
+							<div class="splitter"></div>
+						
+							<!-- Model viewer -->
+							<div id="td_canvas" style="width: 50%; height: 600px" class="tableCell2 panel-right">
+								<canvas id="main_canvas_objectview" style="width: 100%; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
+								<div class='radiobuttons_group' title='Rotate camera'>
+									<input type="radio" name='e'
+									  id="RotateСameraRadioButton" class="input-hidden" />
+									<label for="RotateСameraRadioButton" class='controls_hover'>
+									  <img src="axis_pivot_camera_view_rotate_icon.png" alt="Rotate camera" />
+									</label>
+								</div>
+								<div class='radiobuttons_group' title='Rotate model' style='margin: 40px 0 0 0'>
+									<input type="radio" name='e'
+									  id="RotateObjectRadioButton" class="input-hidden" />
+									<label for="RotateObjectRadioButton" class='controls_hover'>
+									  <img src="axis_pivot_object_view_rotate_icon.png" alt="Rotate object" />
+									</label>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</tr>
+		
+		<!-- Third row with Controls for each viewer -->
+		<tr>
+		<table style="width: 100%;margin: 5px 0 0 0">
+		<tr>
+			<!-- Controls for Slice viewer -->
+			<td width='50%'>
+			<!-- https://codepen.io/ankeet/pen/EEGoNx -->
+				<div class='wrapper' style='margin: 0 0 0 290px; background:#666666p;'>
+					<button id="printButton" type="button" class='box grey_btn curved_button'
+						onclick="printButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Print model">
+						<img src="3d-printer-icon.png" width='40' height='40' alt="PRINT" style='margin: -7px -7px -7px -7px'>
+					</button>
+					<!-- <div class='box' style="width:2px;height:40px;background:#303030;margin: 0 0 0 10px"></div> -->
 				</div>
 			</td>
-			<td>
-				<div class="dropdown">
-					<input id="fileNameTextBox" class='text_input text_input_colors' type='text' placeholder="No file selected" style="vertical-align: middle" readonly/>
-					<button type="button" class="drop_down_button" onclick="expandModelItemsList()"
-						style="vertical-align: middle">
+			
+			<!-- Controls for Model viewer -->
+			<td width='50%'>
+				<div class='centeringDiv' style='margin: 0 0 0 165px'>
+					<button id="sliceButton" type="button" class='box grey_btn curved_button'
+						onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice model">
+						<img src="layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
 					</button>
-					<div id="objectModelsDropDownList" class="dropdown-content">
-						<p style="padding: 0 0 0 10px">Recent models</p>
-						<p style="padding: 0 0 0 10px">Sample models</p>
-						<a href="#" onclick="selectModelFile()">Bunny-LowPoly.stl</a>
-						<a href="#">Couvercle.stl</a>
-						<a href="#">Dodecaeder_for_Dual_Extrusion_1.stl</a>
-						<a href="#">FiboBall_square.stl</a>
-						<a href="#">Finn_Sword_3.stl</a>
-						<a href="#">gear.stl</a>
-						<a href="#">Minimug.stl</a>
-						<a href="#">Pentagon_Star.stl</a>
-						<a href="#">piano.stl</a>
-						<a href="#">sink_plug-v04-pin.stl</a>
-						<a href="#">sink_plug-v05-plug.stl</a>
-						<a href="#">ThreadGaugeConeSAE.stl</a>
+					<!-- <div style="width:2px;height:40px;background:#303030;margin: 0 0 0 10px"></div> -->
+					<!-- <div style="width:2px;height:40px;background:#303030;margin: 0 8px 0 0"></div> -->
+					<div style="margin: 1px 0 0 5px;">
+						<div class='div_double_range'>
+							<div class='div_double_range' style="margin: -5px -5px -5px -5px;">
+								<p class='p_in_range' style='margin: 0 0 0 50px;'>Model height(mm)</p>
+								<input id="modelHeightSlider" type='range' class='slider' value='1' min='1' max='100' step='1' oninput="sliderChangeModelHeight(this.value)" onchange="sliderChangeModelHeight(this.value)"/>
+								<input id="modelHeightTextBox" type='text' onchange="textBoxChangeModelHeight(this.value)" class='text_input text_input_colors' style="width: 40px;"/>
+							</div>
+						</div>
+						<div class='div_double_range'>
+							<div class='div_double_range' style="margin: -5px -5px -5px -5px;">
+								<p class='p_in_range' style='margin: 0 0 0 52px;'>Slice height(mm)</p>
+								<input id="stepSlider" type='range' class='slider' value='0.01' min='0.01' max='1' step='0.01' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
+								<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input text_input_colors' style="width: 40px;"/>
+							</div>
+						</div>
 					</div>
 				</div>
 			</td>
-		</table>
-		<input type="file" id="files" name="files[]" style="visibility: hidden">
-	</tr>
-	
-	
-	<tr>
-	
-		<table id="ViewTable" style="width: 100%; box-shadow: inset 1px 1px 4px -2px #9C9C9C, 2px 2px 3px  #1F1F1F; border: 5px outset grey / darkgray; padding: 1px; " cellspacing="7" border="1">
-		<tr>
-	<td style="width: 50%;" class="tableCell">
-	
-				
-		<canvas id="main_canvas_sliceview" style="width: 100%; height: 100%; border: thin inset grey /darkgray;" width="1000" height="1000" class="interactive_canvas"></canvas>
-		
-	</td>
-	<td id="td_canvas" style="width: 50%;" class="tableCell">
-		<canvas id="main_canvas_objectview" style="width: 100%; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
-	</td>
-	</tr>
-	</table>
-
-	</tr>
-	
-	<tr>
-	<table style="width: 100%;  " >
-	<td>
-	<table style="margin-right: auto;">
-	
-	<td>
-		<!-- Squared ONE -->
-    <table>
-    <td>
-		<div class="squaredOne">
-			<input type="checkbox" value="None" id="squaredOne" name="check" />
-			<label for="squaredOne"></label>
-		</div>
-    </td>
-    <td>
-		<p class="accountLabel">Show points </p>
-    </td>
-    </table>
-	</td>
-	<td>
-		<!-- Squared ONE -->
-    <table>
-    <td>
-		<div class="squaredOne">
-			<input type="checkbox" value="None" id="squaredTwo" name="check" />
-			<label for="squaredTwo"></label>
-		</div>
-    </td>
-    <td>
-		<p class="accountLabel">Show lines</p>
-    </td>
-    </table>
-	</td>
-	<td>
-  <table>
-  <td>
-		<div class="squaredOne">
-			<input type="checkbox" value="None" id="squaredThree" name="check" />
-			<label for="squaredThree"></label>
-		</div>
-    </td>
-    <td>
-		<p class="accountLabel">Fill counturs </p>
-    </td>
-    </table>
-	</td>
-	
-	
-	
-	
-	
-	</table>
-	</td>
-	<td>
-		<table style="margin: auto;">
-			<td id="sliceButtonCell">
-				<button id="sliceButton" type="button" class='grey_btn curved_button'
-				onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice object">
-					<img src="layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
-				</button>
-			</td>
-		</table>
-		</td>
-		<td>
-			<table style="margin-left: auto;">
-				<td>
-				<div>
-				<input 
-				  type="radio" width='50' height='50' name='e'
-				  id="RotateСameraRadioButton" class="input-hidden" />
-				<label for="RotateСameraRadioButton" class='rotation_radio_button'>
-				  <img width='50' height='50'
-					src="axis_pivot_camera_view_rotate_icon.png" 
-					alt="Rotate camera" />
-				</label>
-				<input 
-				  type="radio" width='50' height='50' name='e'
-				  id="RotateObjectRadioButton" class="input-hidden" />
-				<label for="RotateObjectRadioButton" class='rotation_radio_button'>
-				  <img width='50' height='50'
-					src="axis_pivot_object_view_rotate_icon.png" 
-					alt="Rotate object" />
-				</label>
-				<input type="range" min="1" max="100" value="50" >
-				<p class='p_in_range'>Model height</p>
-				<input type="range" value="0">
-				</div>
-					Step: 
-					<input id="stepSlider" type='range' class='slider' value='0' min='0' max='100' step='1' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
-					<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input text_input_colors' style="width: 40px;" readonly/>
-				</td>
+			</tr>
 			</table>
-		</td></table>
 	</tr>
-	
-	
+	<!-- <tr> -->
+	<!-- <table> -->
+  <!-- <tr> -->
+    <!-- <td>Alfreds Futterkiste</td> -->
+    <!-- <td>Maria Anders</td> -->
+    <!-- <td>Germany</td> -->
+  <!-- </tr> -->
+  <!-- <tr> -->
+    <!-- <td>Centro comercial Moctezuma</td> -->
+    <!-- <td>Francisco Chang</td> -->
+    <!-- <td>Mexico</td> -->
+  <!-- </tr> -->
+  <!-- <tr> -->
+    <!-- <td>Ernst Handel</td> -->
+    <!-- <td>Roland Mendel</td> -->
+    <!-- <td>Austria</td> -->
+  <!-- </tr> -->
+  <!-- <tr> -->
+    <!-- <td>Island Trading</td> -->
+    <!-- <td>Helen Bennett</td> -->
+    <!-- <td>UK</td> -->
+  <!-- </tr> -->
+  <!-- <tr> -->
+    <!-- <td>Laughing Bacchus Winecellars</td> -->
+    <!-- <td>Yoshi Tannamuri</td> -->
+    <!-- <td>Canada</td> -->
+  <!-- </tr> -->
+  <!-- <tr> -->
+    <!-- <td>Magazzini Alimentari Riuniti</td> -->
+    <!-- <td>Giovanni Rovelli</td> -->
+    <!-- <td>Italy</td> -->
+  <!-- </tr> -->
+<!-- </table> -->
+	<!-- </tr> -->
 	
 </table>
+
+
 <script src="Main.js"></script>
 	</body>
 </html>

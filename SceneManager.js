@@ -15,6 +15,7 @@ function SceneManager(scopeCanvas) {
   var previousY = -1;
   
   var slicePlanes = [];
+  var maxStepsCount = 10000;
   var defaultBoundingBox = {min: {x: -15, y: -15, z: -15}, max: {x: 15, y: 15, z: 15}};
   var currentSlicePlane = 0;
   var sliceDelta = 0;
@@ -58,7 +59,6 @@ function SceneManager(scopeCanvas) {
     controls.target = new THREE.Vector3(0, 0, 0);
     controls.maxDistance = 3000;
 	controls.noPan = true;
-	// this.DisableCameraRotation();
 	// https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html
 
     // prepare clock
@@ -165,7 +165,7 @@ function SceneManager(scopeCanvas) {
   }
   
   this.GetCurrentGeometry = function() {
-	  alert('getting ' + currentModel);
+	  // alert('getting ' + currentModel);
 	  // item.geometry.dispose();
 	  
 	  //currentModel.geometry.verticesNeedUpdate = true;
@@ -267,7 +267,7 @@ this.GetZDelta = function() {
 var zDelta1 = -1;
 
 function RecalculateVisibility(stepValue) {
-	if (stepValue >= 0 && stepValue <= 100)
+	if (stepValue >= 0 && stepValue <= maxStepsCount)
 		{
 			if (stepValue > currentSlicePlane)
 			{
@@ -343,7 +343,7 @@ function RecalculateSlicePlanes(currentPosition, boundingBox) {
 function GeneratePlanes(boundingBox) {
 	var bBox = boundingBox;
 	var zPosition = 0;
-	for (var i = 0; i != 100; i++)
+	for (var i = 0; i != maxStepsCount; i++)
 	{
     	CreatePlane(bBox, zPosition);
     }

@@ -28,11 +28,23 @@ function triggerFileInput() {
 	  // var geometry = objectStlLoader.parse( elem.innerHTML );
 	  
 	  // This is not good. Repair it
-			var slider = document.getElementById('stepSlider');
-			slider.value = 0;
-			var stepTextBox = document.getElementById('stepTextBox');
-			stepTextBox.value = slider.value;
+			// var slider = document.getElementById('stepSlider');
+			// slider.value = 0;
+			// var stepTextBox = document.getElementById('stepTextBox');
+			// stepTextBox.value = slider.value;
 			// This is not good. Repair it
+	}
+	
+	var SetupGridSplitter = function()
+	{
+		 $(".panel-left").resizable({
+		   handleSelector: ".splitter",
+		   resizeHeight: false
+		 });
+		 $(".panel-top").resizable({
+		   handleSelector: ".splitter-horizontal",
+		   resizeWidth: false
+		 });
 	}
 	
 	var objectModelsDropDownList = document.getElementById('objectModelsDropDownList');
@@ -89,7 +101,15 @@ function triggerFileInput() {
 		}
 	}, true);
 	
-
+	var SetupViewerControls = function()
+	{
+		rotateСameraRadioButton.checked = true;
+		rotateObjectRadioButton.checked = false;
+	}
+	
+	SetupGridSplitter();
+	SetupViewerControls();
+	
 	var view_canvas = document.getElementById('main_canvas_objectview');
 	var objectStlLoader = new THREE.STLLoader();
 	console.log('STLLoader created');
@@ -100,9 +120,9 @@ function triggerFileInput() {
 	var canvas = document.getElementById('main_canvas_sliceview');
 	paper.setup(canvas);
 	
-	var pointsCheckBoxState = document.getElementById('squaredOne').checked;
-	var linesCheckBoxState = document.getElementById('squaredTwo').checked;
-	var countursCheckBoxState = document.getElementById('squaredThree').checked;
+	var pointsCheckBoxState = document.getElementById('ShowPointsCheckbox').checked;
+	var linesCheckBoxState = document.getElementById('ShowLinesCheckbox').checked;
+	var countursCheckBoxState = document.getElementById('ShowContoursCheckbox').checked;
 	
 	var sliceView = new SliceViewer(canvas, function(layerIndex, layer) {sceneManager.HighlightLayer(layerIndex);}, 
 		pointsCheckBoxState, linesCheckBoxState, countursCheckBoxState);
@@ -113,30 +133,60 @@ function triggerFileInput() {
 		sliceView.OnCanvasScrolled(event);
 	}
 	
+	var isSliderBeingChanged = false;
 	function textBoxChangeStep(stepValue) {
-		// TODO: Implement this
-		//sliceView.SetStep(parseFloat(stepValue));
-		sliceView.step = parseFloat(stepValue);
-		sceneManager.SetStep(sliceView.step);
-		// alert('                   changed to: ' + sceneManager.zDelta);
-		//sliceView.step = sceneManager.deltaZ;
+		var stepSlider = document.getElementById('stepSlider');
+		if (isSliderBeingChanged)
+		{
+			isSliderBeingChanged = false;
+		}
+		else
+		{
+			stepSlider.value = parseFloat(stepValue);
+		}
 	}
 	
 	function sliderChangeStep(stepValue) {
+		isSliderBeingChanged = true;
+		var modelHeightSlider = document.getElementById('modelHeightSlider');
+		var stepSlider = document.getElementById('stepSlider');
+		sliceView.step = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
+		sceneManager.SetStep(sliceView.step);
+		sliceView.step = sceneManager.GetZDelta();
+		
 		var stepTextBox = document.getElementById('stepTextBox');
 		stepTextBox.value = stepValue;
-		//sliceView.SetStep(parseFloat(stepValue));
-		sliceView.step = parseFloat(stepValue);
+	}
+	
+	function textBoxChangeModelHeight(stepValue) {
+		var modelHeightSlider = document.getElementById('modelHeightSlider');
+		if (isSliderBeingChanged)
+		{
+			isSliderBeingChanged = false;
+		}
+		else
+		{
+			modelHeightSlider.value = parseFloat(stepValue);
+		}
+	}
+	
+	function sliderChangeModelHeight(stepValue) {
+		isSliderBeingChanged = true;
+		var stepSlider = document.getElementById('stepSlider');
+		var modelHeightSlider = document.getElementById('modelHeightSlider');
+		sliceView.step = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
 		sceneManager.SetStep(sliceView.step);
-		// alert('                   changed to: ' + sceneManager.GetZDelta());
 		sliceView.step = sceneManager.GetZDelta();
+		
+		var modelHeightTextBox = document.getElementById('modelHeightTextBox');
+		modelHeightTextBox.value = stepValue;
 	}
 	
 	function sliceButtonClicked(event) {
 		// sliceView.SetInputGeometry(sceneManager.GetCurrentGeometry());
 		sliceView.SetObject(sceneManager.GetCurrentGeometry());
 		sliceView.OnSliceCommand();
-		alert('Geo after');
+		// alert('Geo after');
 	}
 	
 	var OnResize = function(event) {
@@ -170,10 +220,10 @@ function triggerFileInput() {
 		
 		objectStlLoader.load(f, function(geometry){
 			// This is not good. Repair it
-			var slider = document.getElementById('stepSlider');
-			slider.value = 0;
-			var stepTextBox = document.getElementById('stepTextBox');
-			stepTextBox.value = slider.value;
+			// var slider = document.getElementById('stepSlider');
+			// slider.value = 0;
+			// var stepTextBox = document.getElementById('stepTextBox');
+			// stepTextBox.value = slider.value;
 			// This is not good. Repair it
 			
 			LoadModel(f.name, geometry);
@@ -185,7 +235,7 @@ function triggerFileInput() {
 	{
 		var fileNameTextBox = document.getElementById('fileNameTextBox');
 		fileNameTextBox.value = modelName;
-		ceneManager.removeModel();
+		sceneManager.removeModel();
 		sceneManager.addModel(geometry);
 		sliceView.SetObject(geometry);
 	}
@@ -196,20 +246,20 @@ document.getElementById('files').addEventListener('change', handleFileSelect, fa
 // Handlers
 function FillCountursChanged(element)
 {
-	console.log(document.getElementById('squaredThree').checked);	
-	sliceView.OnFillCountursChanged(document.getElementById('squaredThree').checked);
+	console.log(document.getElementById('ShowContoursCheckbox').checked);	
+	sliceView.OnFillCountursChanged(document.getElementById('ShowContoursCheckbox').checked);
 }
   
 function ShowLineChanged(element)
 {
-	console.log(document.getElementById('squaredTwo').checked);
-	sliceView.OnShowLineChanged(document.getElementById('squaredTwo').checked);
+	console.log(document.getElementById('ShowLinesCheckbox').checked);
+	sliceView.OnShowLineChanged(document.getElementById('ShowLinesCheckbox').checked);
 }
 
 function ShowPointsChanged(element)
 {
-	console.log(document.getElementById('squaredOne').checked);  
-	sliceView.OnShowPointsChanged(document.getElementById('squaredOne').checked);
+	console.log(document.getElementById('ShowPointsCheckbox').checked);  
+	sliceView.OnShowPointsChanged(document.getElementById('ShowPointsCheckbox').checked);
 }
   
 function ResetLayer()
@@ -219,9 +269,9 @@ function ResetLayer()
  }
 // Handlers
 
-var showPointsCheckbox = document.getElementById('squaredOne');
-var showLinesCheckbox = document.getElementById('squaredTwo');
-var fillCountursCheckbox = document.getElementById('squaredThree');
+var showPointsCheckbox = document.getElementById('ShowPointsCheckbox');
+var showLinesCheckbox = document.getElementById('ShowLinesCheckbox');
+var fillCountursCheckbox = document.getElementById('ShowContoursCheckbox');
 
 showPointsCheckbox.addEventListener("change", ShowPointsChanged);
 showLinesCheckbox.addEventListener("change", ShowLineChanged);
