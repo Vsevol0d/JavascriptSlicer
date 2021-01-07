@@ -105,10 +105,40 @@ function triggerFileInput() {
 	{
 		rotateСameraRadioButton.checked = true;
 		rotateObjectRadioButton.checked = false;
+		var showContoursCheckbox = document.getElementById('ShowContoursCheckbox');
+		
+		showContoursCheckbox.checked = true;
+		FillCountursChanged(null);
 	}
 	
-	SetupGridSplitter();
-	SetupViewerControls();
+	var SetupPrintModalWindow = function()
+	{
+		// Get the modal
+		var modal = document.getElementById("myModal");
+
+		// Get the button that opens the modal
+		var btn = document.getElementById("printButton");
+
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+
+		// When the user clicks the button, open the modal 
+		btn.onclick = function() {
+		  modal.style.display = "block";
+		}
+
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		  modal.style.display = "none";
+		}
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+			modal.style.display = "none";
+		  }
+		}
+	}
 	
 	var view_canvas = document.getElementById('main_canvas_objectview');
 	var objectStlLoader = new THREE.STLLoader();
@@ -153,7 +183,6 @@ function triggerFileInput() {
 		sliceView.step = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
 		sceneManager.SetStep(sliceView.step);
 		sliceView.step = sceneManager.GetZDelta();
-		
 		var stepTextBox = document.getElementById('stepTextBox');
 		stepTextBox.value = stepValue;
 	}
@@ -189,15 +218,25 @@ function triggerFileInput() {
 		// alert('Geo after');
 	}
 	
+	function printButtonClicked(event) {
+		
+	}
+	
 	var OnResize = function(event) {
 		
-		var viewTable = document.getElementById('ViewTable');
+		//var viewTable = document.getElementById('ViewTable');
 		
-		var sideLength = viewTable.offsetWidth / 2;
-		sliceView.OnResize(event, sideLength);
-		sceneManager.OnResize(event, sideLength);
+		//var sideLength = viewTable.offsetWidth / 2;
+		// sliceView.OnResize(event, sideLength);
+		var objectCanvasView = document.getElementById('td_canvas');
+		var sideLength = objectCanvasView.offsetWidth;
+		var sideHeight = objectCanvasView.offsetHeight;
+		sceneManager.OnResize(event, sideLength, sideHeight);
+		alert('Resize');
 	};
 
+	var objectCanvasView = document.getElementById('td_canvas');
+	objectCanvasView.onresize = OnResize;
 	window.onresize = OnResize;
 	OnResize();
   
@@ -234,10 +273,26 @@ function triggerFileInput() {
 	function LoadModel(modelName, geometry)
 	{
 		var fileNameTextBox = document.getElementById('fileNameTextBox');
+		fileNameTextBox.style.fontSize = 15;		
 		fileNameTextBox.value = modelName;
+		
+		var stepSlider = document.getElementById('stepSlider');
+		var modelHeightSlider = document.getElementById('modelHeightSlider');
+		var stepTextBox = document.getElementById('stepTextBox');
+		var modelHeightTextBox = document.getElementById('modelHeightTextBox');
+		
 		sceneManager.removeModel();
 		sceneManager.addModel(geometry);
 		sliceView.SetObject(geometry);
+		
+		var stepSliderInitValue = stepSlider.max / 10;
+		sliceView.step = parseInt(parseFloat(modelHeightSlider.min) / parseFloat(stepSliderInitValue));
+		sceneManager.SetStep(sliceView.step);
+		sliceView.step = sceneManager.GetZDelta();
+		stepTextBox.value = stepSliderInitValue;
+		modelHeightTextBox.value = modelHeightSlider.min;
+		stepSlider.value = stepSliderInitValue;
+		modelHeightSlider.value = modelHeightSlider.min;
 	}
 
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
@@ -276,5 +331,9 @@ var fillCountursCheckbox = document.getElementById('ShowContoursCheckbox');
 showPointsCheckbox.addEventListener("change", ShowPointsChanged);
 showLinesCheckbox.addEventListener("change", ShowLineChanged);
 fillCountursCheckbox.addEventListener("change", FillCountursChanged);
+
+SetupGridSplitter();
+SetupViewerControls();
+SetupPrintModalWindow();
 
 console.log('Initialization succeeded');

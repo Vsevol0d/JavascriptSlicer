@@ -51,17 +51,21 @@
 				<td>
 					<div class="dropdown">
 						<input id="fileNameTextBox" 
-							style="vertical-align: middle; height: 39px; margin: 0 0 0 -1px; padding: 5px 5px; font-size: 15px;
-								box-shadow: inset 1px 1px 4px -1px #9C9C9C, 2px 2px 3px  #1F1F1F;" 
+							style="vertical-align: middle; height: 39px; margin: 0 0 0 -1px; padding: 5px 5px;
+								box-shadow: inset 1px 1px 4px -1px #9C9C9C, 2px 2px 3px  #1F1F1F;
+								font-family: 'Poiret One', cursive; font-size: 12px" 
 							class='text_input text_input_colors' type='text' placeholder="No file selected" readonly/>
 						<button type="button" onclick="expandModelItemsList()"
 							style="vertical-align: middle; height: 39px; margin: 0 0 0 1px; border-radius: 0 5px 5px 0;
 								float: right" class="drop_down_button grey_btn curved_button">
 								<img src="drop-down-icon.png" width='15' height='15' alt="EXPAND" style="vertical-align: middle; margin: 0 0 0 -4px;">
 						</button>
-						<div id="objectModelsDropDownList" style="opacity: 0.9; border-radius: 0 0 5px 5px;" class="dropdown-content text_input_colors">
+						<div id="objectModelsDropDownList" style="opacity: 0.9; border-radius: 0 0 5px 5px; margin: 0 0 0 -1px; width: 300px" 
+							class="dropdown-content text_input_colors">
 							<!-- <p>Recent models</p> -->
-							<p style="background-color: #888888; margin: 0 0 0 0">Sample models</p>
+							<p style="background-color: #555555; margin: 0 0 0 0">Recent models</p>
+							<div class='box' style="height:1px;width:100%;background:#888888;"></div>
+							<p style="background-color: #555555; margin: 0 0 0 0">Sample models</p>
 							<div class='box' style="height:1px;width:100%;background:#888888;"></div>
 							<a href="#">Bunny-LowPoly.stl</a>
 							<a href="#">Couvercle.stl</a>
@@ -84,58 +88,58 @@
 	
 		<!-- Second row with Slice and Model viewers -->
 		<tr>
-			<table id="ViewTable" style="width: 100%; box-shadow: inset 1px 1px 4px -2px #9C9C9C, 2px 2px 3px  #1F1F1F; border: 5px outset grey / darkgray; padding: 1px; " cellspacing="7" border="1">
-				<tr>
-					<td>
-						<div class='panel-container' style="width: 100%;">
+			<div id="ViewTable" class='panel-container viewer_window'>
 						
-							<!-- Slice viewer -->
-							<div style="height: 600px; width: 50%" class="tableCell2 panel-left">
-								<div class='checkboxes_group' title='Show slice vertices'>
-									<input type="checkbox" id="ShowPointsCheckbox" class="input-hidden"/>
-									<label for="ShowPointsCheckbox" class='controls_hover'>
-									  <img src="points-icon.png" alt="Show slice vertices" />
-									</label>
-								</div>
-								<div class='box checkboxes_group' title='Show slice edge lines' style='margin: 30px 0 0 0'>
-									<input type="checkbox" id="ShowLinesCheckbox" class="input-hidden"/>
-									<label for="ShowLinesCheckbox" class='controls_hover'>
-									  <img src="lines-icon.png" alt="Show slice edge lines" />
-									</label>
-								</div>
-								<div class='box checkboxes_group' title='Show model sliced areas' style='margin: 60px 0 0 0'>
-									<input type="checkbox" id="ShowContoursCheckbox" class="input-hidden"/>
-									<label for="ShowContoursCheckbox" class='controls_hover'>
-									  <img src="contours-icon.png" alt="Show model sliced areas" />
-									</label>
-								</div>
-								<canvas id="main_canvas_sliceview" style="background-color: #00ff00; margin: -10px 0 0 -10px; width: 650px; height: 620px; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
-							</div>
+				<!-- Slice viewer -->
+				<div class="tableCell2 panel-left">
+								
+					<div class='checkboxes_group' title='Show slice vertices' style='margin: -5px 0 0 -5px'>
+						<input type="checkbox" id="ShowPointsCheckbox" class="input-hidden"/>
+						<label for="ShowPointsCheckbox" class='controls_hover'>
+							<img src="points-icon.png" alt="Show slice vertices" />
+						</label>
+					</div>
+					<div class='box checkboxes_group' title='Show slice edge lines' style='margin: 25px 0 0 -5px'>
+						<input type="checkbox" id="ShowLinesCheckbox" class="input-hidden"/>
+						<label for="ShowLinesCheckbox" class='controls_hover'>
+							<img src="lines-icon.png" alt="Show slice edge lines" />
+						</label>
+					</div>
+					<div class='box checkboxes_group' title='Show model sliced areas' style='margin: 55px 0 0 -5px'>
+						<input type="checkbox" id="ShowContoursCheckbox" class="input-hidden"/>
+						<label for="ShowContoursCheckbox" class='controls_hover'>
+							<img src="contours-icon.png" alt="Show model sliced areas" />
+						</label>
+					</div>
+					<input id="stepSlider1" type='range' class='slider vertical-slider' value='0.01' min='0.01' max='1' step='0.01'
+								style="position: relative; width: 100%; transform: rotate(270deg); float: right; margin: 0 -10px 0 0" oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
+					<canvas id="main_canvas_sliceview" style="
+						height: 100%; width: 100%;
+						border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
+				</div>
 							
-							<div class="splitter"></div>
+				<div class="splitter"></div>
 						
-							<!-- Model viewer -->
-							<div id="td_canvas" style="width: 50%; height: 600px" class="tableCell2 panel-right">
-								<canvas id="main_canvas_objectview" style="width: 100%; border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
-								<div class='radiobuttons_group' title='Rotate camera'>
-									<input type="radio" name='e'
-									  id="RotateСameraRadioButton" class="input-hidden" />
-									<label for="RotateСameraRadioButton" class='controls_hover'>
-									  <img src="axis_pivot_camera_view_rotate_icon.png" alt="Rotate camera" />
-									</label>
-								</div>
-								<div class='radiobuttons_group' title='Rotate model' style='margin: 40px 0 0 0'>
-									<input type="radio" name='e'
-									  id="RotateObjectRadioButton" class="input-hidden" />
-									<label for="RotateObjectRadioButton" class='controls_hover'>
-									  <img src="axis_pivot_object_view_rotate_icon.png" alt="Rotate object" />
-									</label>
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</table>
+				<!-- Model viewer -->
+				<div id="td_canvas" class="tableCell2 panel-right">
+					<canvas id="main_canvas_objectview" style="margin-top: -10px; margin-left: -10px;
+						width: 100%; height: 100%;" class="interactive_canvas"></canvas>
+					<div class='radiobuttons_group' title='Rotate camera' style='margin: -5px 0 0 -5px'>
+						<input type="radio" name='e'
+							id="RotateСameraRadioButton" class="input-hidden" />
+						<label for="RotateСameraRadioButton" class='controls_hover'>
+						<img src="axis_pivot_camera_view_rotate_icon.png" alt="Rotate camera" />
+						</label>
+					</div>
+					<div class='radiobuttons_group' title='Rotate model' style='margin: 35px 0 0 -5px'>
+						<input type="radio" name='e'
+						id="RotateObjectRadioButton" class="input-hidden" />
+						<label for="RotateObjectRadioButton" class='controls_hover'>
+							<img src="axis_pivot_object_view_rotate_icon.png" alt="Rotate object" />
+						</label>
+					</div>	
+				</div>
+			</div>
 		</tr>
 		
 		<!-- Third row with Controls for each viewer -->
@@ -150,6 +154,22 @@
 						onclick="printButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Print model">
 						<img src="3d-printer-icon.png" width='40' height='40' alt="PRINT" style='margin: -7px -7px -7px -7px'>
 					</button>
+					
+					<!-- Print modal window -->
+					<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <span class="close">&times;</span>
+						  <h2>Print options</h2>
+						</div>
+						<div class="modal-body">
+						  <p>This view is under construction</p>
+						</div>
+					  </div>
+
+					</div>
 					<!-- <div class='box' style="width:2px;height:40px;background:#303030;margin: 0 0 0 10px"></div> -->
 				</div>
 			</td>
@@ -161,8 +181,6 @@
 						onclick="sliceButtonClicked()" data-toggle="tooltip" data-placement="bottom" title="Slice model">
 						<img src="layers_icon111_small.png" alt="SLICE" style="vertical-align: middle">
 					</button>
-					<!-- <div style="width:2px;height:40px;background:#303030;margin: 0 0 0 10px"></div> -->
-					<!-- <div style="width:2px;height:40px;background:#303030;margin: 0 8px 0 0"></div> -->
 					<div style="margin: 1px 0 0 5px;">
 						<div class='div_double_range'>
 							<div class='div_double_range' style="margin: -5px -5px -5px -5px;">
@@ -182,42 +200,8 @@
 				</div>
 			</td>
 			</tr>
-			</table>
+		</table>
 	</tr>
-	<!-- <tr> -->
-	<!-- <table> -->
-  <!-- <tr> -->
-    <!-- <td>Alfreds Futterkiste</td> -->
-    <!-- <td>Maria Anders</td> -->
-    <!-- <td>Germany</td> -->
-  <!-- </tr> -->
-  <!-- <tr> -->
-    <!-- <td>Centro comercial Moctezuma</td> -->
-    <!-- <td>Francisco Chang</td> -->
-    <!-- <td>Mexico</td> -->
-  <!-- </tr> -->
-  <!-- <tr> -->
-    <!-- <td>Ernst Handel</td> -->
-    <!-- <td>Roland Mendel</td> -->
-    <!-- <td>Austria</td> -->
-  <!-- </tr> -->
-  <!-- <tr> -->
-    <!-- <td>Island Trading</td> -->
-    <!-- <td>Helen Bennett</td> -->
-    <!-- <td>UK</td> -->
-  <!-- </tr> -->
-  <!-- <tr> -->
-    <!-- <td>Laughing Bacchus Winecellars</td> -->
-    <!-- <td>Yoshi Tannamuri</td> -->
-    <!-- <td>Canada</td> -->
-  <!-- </tr> -->
-  <!-- <tr> -->
-    <!-- <td>Magazzini Alimentari Riuniti</td> -->
-    <!-- <td>Giovanni Rovelli</td> -->
-    <!-- <td>Italy</td> -->
-  <!-- </tr> -->
-<!-- </table> -->
-	<!-- </tr> -->
 	
 </table>
 

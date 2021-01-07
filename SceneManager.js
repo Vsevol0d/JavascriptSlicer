@@ -201,14 +201,14 @@ function SceneManager(scopeCanvas) {
 	scene.remove(currentModel);
 	currentModel = null;
   }
-  this.OnResize = function(event, sideLength) {
+  this.OnResize = function(event, sideLength, sideHeight) {
     var canvas = renderer.context.canvas;
 	//alert('                             ' + canvas.clientWidth + ' '  + canvas.width);
 	//alert('                             ' + canvas.clientHeight + ' '  + canvas.height);
 	// Lookup the size the browser is displaying the canvas.
 	var displayWidth  = canvas.clientWidth;
 	var displayHeight = canvas.clientHeight;
-	canvas.width = sideLength; canvas.height = sideLength;
+	canvas.width = sideLength; canvas.height = sideHeight;
  // alert('Resized to: ' + canvas.width + ' ' + canvas.height);
 	// Check if the canvas is not the same size.
 	//alert('                             ' + canvas.clientWidth + ' '  + canvas.width);
@@ -221,8 +221,8 @@ function SceneManager(scopeCanvas) {
 		//canvas.height = displayHeight;
  
 		// Set the viewport to match
-		renderer.setSize(sideLength, sideLength);
-		renderer.setViewport(0, 0, sideLength, sideLength);
+		renderer.setSize(sideLength, sideHeight);
+		renderer.setViewport(0, 0, sideLength, sideHeight);
 		// alert('Resized to: ' + canvas.width + ' ' + canvas.height);
 	}
 	
@@ -376,6 +376,7 @@ function CreatePlane(boundingBox, zPosition) {
     geom.faces.push( new THREE.Face3( 5, 4, 3 ) );
     
     var material = new THREE.MeshLambertMaterial();
+	// material.color = 0xffffff;
 	material.transparent = true;
     material.opacity = 0.5;
 	material.side = THREE.DoubleSide;
