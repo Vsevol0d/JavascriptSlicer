@@ -39,7 +39,7 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 		face_size = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
 		n_faces = reader.getUint32(80,true);
 		expect = 80 + (32 / 8) + (n_faces * face_size);
-		alert('checked isBinary');
+		alert(' ' + reader.byteLength + ' ' + expect);
 		return expect === reader.byteLength;
 
 	};
