@@ -38,8 +38,13 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 		reader = new DataView( binData );
 		face_size = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
 		n_faces = reader.getUint32(80,true);
+		
 		expect = 80 + (32 / 8) + (n_faces * face_size);
-		alert(' ' + reader.byteLength + ' ' + expect);
+		
+		var n_faces1 = reader.getUint32(80, false);
+		var n_faces2 = reader.getInt32(80, false);
+		var n_faces3 = reader.getInt32(80, true);
+		alert(' ' + reader.byteLength + ' ' + expect + ' variants: ' + n_faces1 + ' ' + n_faces2 + ' ' + n_faces3);
 		return expect === reader.byteLength;
 
 	};
