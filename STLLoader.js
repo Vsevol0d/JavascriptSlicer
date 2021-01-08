@@ -50,6 +50,12 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	};
 
 	var binData = this.ensureBinary( data );
+	var str = '';
+	for (var i = 0; i != 100; i++)
+	{
+		str += binData[i] + ' ';
+	}
+	alert(str);
 
 	return isBinary()
 		? this.parseBinary( binData )
