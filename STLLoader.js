@@ -55,7 +55,8 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	{
 		str += binData[i] + ' ';
 	}
-	alert(str);
+	// alert(Array.apply([], binData).join(","));
+	alert('1 ' + binData);
 
 	return isBinary()
 		? this.parseBinary( binData )
@@ -65,9 +66,10 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 
 THREE.STLLoader.prototype.parseBinary = function ( data ) {
 alert('parsing binary');
+alert('2 ' + data.length);
 	var reader = new DataView( data );
 	var faces = reader.getUint32( 80, true );
-
+alert('5 ' + faces + ' DataView length ' + reader.byteLength);
 	var r, g, b, hasColors = false, colors;
 	var defaultR, defaultG, defaultB, alpha;
 
@@ -225,13 +227,17 @@ THREE.STLLoader.prototype.ensureString = function (buf) {
 
 THREE.STLLoader.prototype.ensureBinary = function (buf) {
 
+alert('3 ' + buf.length);
 	if (typeof buf === "string"){
 		var array_buffer = new Uint8Array(buf.length);
 		for(var i = 0; i < buf.length; i++) {
 			array_buffer[i] = buf.charCodeAt(i) & 0xff; // implicitly assumes little-endian
 		}
+		alert('4 array_buffer ' + array_buffer.buffer.length);
+		alert('4 array_buffer ' + array_buffer.length);
 		return array_buffer.buffer || array_buffer;
 	} else {
+		alert('4 buf ' + buf.length);
 		return buf;
 	}
 
