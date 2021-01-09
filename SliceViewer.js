@@ -157,6 +157,8 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 			if (CurrentLayer < SlicedObject.Layers.length - 1)
 			{
 				CurrentLayer++;
+				var cutPlaneNumberSlider = document.getElementById('cutPlaneNumberSlider');
+				cutPlaneNumberSlider.value++;
 				this.MoveToLayer(CurrentLayer);
 			}
 		}
@@ -165,6 +167,8 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 			if (CurrentLayer > 0)
 			{
 				CurrentLayer--;
+				var cutPlaneNumberSlider = document.getElementById('cutPlaneNumberSlider');
+				cutPlaneNumberSlider.value--;
 				this.MoveToLayer(CurrentLayer);
 			}
 		}

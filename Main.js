@@ -16,6 +16,15 @@ function triggerFileInput() {
 
 		xhr.onload = function() {
 		  var responseObj = xhr.response;
+		  var dv = new DataView(responseObj);
+		  var str = '';
+			for (var i = 0; i != 100; i++)
+			{
+				str += dv.getUint8( i, true ) + ' ';
+			}
+			// // alert(Array.apply([], binData).join(","));
+			// // alert('1 ' + binData);
+			alert('DataView: ' + str);
 		  if(xhr.statusText == "success")
 			{
 				var objectStlLoader = new THREE.STLLoader();
@@ -29,15 +38,7 @@ function triggerFileInput() {
 				alert("Cannot load file: " + responseObj.message);
 			}
 			
-		  // var dv = new DataView(responseObj);
-		  // var str = '';
-			// for (var i = 0; i != 100; i++)
-			// {
-				// str += dv.getUint8( i, true ) + ' ';
-			// }
-			// // alert(Array.apply([], binData).join(","));
-			// // alert('1 ' + binData);
-			// alert('DataView: ' + str);
+		  
 		};
 		/*
 		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
