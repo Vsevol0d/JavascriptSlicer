@@ -16,10 +16,11 @@ function triggerFileInput() {
 
 		xhr.onload = function() {
 			var objectStlLoader = new THREE.STLLoader();
-				var elem = document.getElementById("includedContent");
-				var geometry = objectStlLoader.parse( elem.innerHTML );
+				// var elem = document.getElementById("includedContent");
+				// var geometry = objectStlLoader.parse( elem.innerHTML );
 			  
-				LoadModel(localFileName, geometry);
+				var responseObj = xhr.response;
+				LoadModel(localFileName, responseObj);
 			/*
 		  var responseObj = xhr.response;
 		  var dv = new DataView(responseObj);
