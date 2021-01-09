@@ -55,7 +55,7 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	var str = '';
 	for (var i = 0; i != 100; i++)
 	{
-		str += reader.getUint8( i, true ) + ' ';
+		str += reader1.getUint8( i, true ) + ' ';
 	}
 	// alert(Array.apply([], binData).join(","));
 	// alert('1 ' + binData);
