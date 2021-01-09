@@ -33,33 +33,16 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 
 
 	var isBinary = function () {
-		alert('checking isBinary');
 		var expect, face_size, n_faces, reader;
 		reader = new DataView( binData );
 		face_size = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
 		n_faces = reader.getUint32(80,true);
-		
 		expect = 80 + (32 / 8) + (n_faces * face_size);
-		
-		var n_faces1 = reader.getUint32(80, false);
-		var n_faces2 = reader.getInt32(80, false);
-		var n_faces3 = reader.getInt32(80, true);
-		alert(' ' + reader.byteLength + ' ' + expect + ' variants: ' + n_faces1 + ' ' + n_faces2 + ' ' + n_faces3);
 		return expect === reader.byteLength;
 
 	};
 
 	var binData = this.ensureBinary( data );
-	var reader1 = new DataView( binData );
-	
-	var str = '';
-	for (var i = 0; i != 100; i++)
-	{
-		str += reader1.getUint8( i, true ) + ' ';
-	}
-	// alert(Array.apply([], binData).join(","));
-	// alert('1 ' + binData);
-	alert('DataView: ' + str);
 
 	return isBinary()
 		? this.parseBinary( binData )
@@ -68,11 +51,8 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 };
 
 THREE.STLLoader.prototype.parseBinary = function ( data ) {
-alert('parsing binary');
-alert('2 ' + data.length);
 	var reader = new DataView( data );
 	var faces = reader.getUint32( 80, true );
-alert('5 ' + faces + ' DataView length ' + reader.byteLength);
 
 	var r, g, b, hasColors = false, colors;
 	var defaultR, defaultG, defaultB, alpha;
@@ -157,10 +137,8 @@ alert('5 ' + faces + ' DataView length ' + reader.byteLength);
 		normal = new THREE.Vector3( normalX, normalY, normalZ);
 		geometry.faces.push( new THREE.Face3( length - 3, length - 2, length - 1, normal ) );
 	}
-alert('parsed binary');
 	geometry.computeBoundingBox();
 	geometry.computeBoundingSphere();
-	alert('computeBoundingSphere');
 	/*
 	geometry.addAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 	geometry.addAttribute( 'normal', new THREE.BufferAttribute( normals, 3 ) );
@@ -176,7 +154,6 @@ alert('parsed binary');
 };
 
 THREE.STLLoader.prototype.parseASCII = function (data) {
-alert('parsing ascii');
 	var geometry, length, normal, patternFace, patternNormal, patternVertex, result, text;
 	geometry = new THREE.Geometry();
 	patternFace = /facet([\s\S]*?)endfacet/g;
@@ -205,10 +182,8 @@ alert('parsing ascii');
 		geometry.faces.push( new THREE.Face3( length - 3, length - 2, length - 1, normal ) );
 
 	}
-alert('parsed ascii');
 	geometry.computeBoundingBox();
 	geometry.computeBoundingSphere();
-	alert('computeBoundingSphere');
 
 	return geometry;
 
@@ -231,17 +206,13 @@ THREE.STLLoader.prototype.ensureString = function (buf) {
 
 THREE.STLLoader.prototype.ensureBinary = function (buf) {
 
-alert('3 ' + buf.length);
 	if (typeof buf === "string"){
 		var array_buffer = new Uint8Array(buf.length);
 		for(var i = 0; i < buf.length; i++) {
 			array_buffer[i] = buf.charCodeAt(i) & 0xff; // implicitly assumes little-endian
 		}
-		alert('4 array_buffer ' + array_buffer.buffer.length);
-		alert('4 array_buffer ' + array_buffer.length);
 		return array_buffer.buffer || array_buffer;
 	} else {
-		alert('4 buf ' + buf.length);
 		return buf;
 	}
 

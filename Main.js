@@ -15,6 +15,12 @@ function triggerFileInput() {
 		xhr.send();
 
 		xhr.onload = function() {
+			var objectStlLoader = new THREE.STLLoader();
+				var elem = document.getElementById("includedContent");
+				var geometry = objectStlLoader.parse( elem.innerHTML );
+			  
+				LoadModel(localFileName, geometry);
+			/*
 		  var responseObj = xhr.response;
 		  var dv = new DataView(responseObj);
 		  var str = '';
@@ -37,7 +43,7 @@ function triggerFileInput() {
 			{
 				alert("Cannot load file: " + responseObj.message);
 			}
-			
+			*/
 		  
 		};
 		/*
