@@ -14,18 +14,30 @@ function triggerFileInput() {
 
 		xhr.send();
 
-		// тело ответа {"сообщение": "Привет, мир!"}
 		xhr.onload = function() {
 		  var responseObj = xhr.response;
-		  var dv = new DataView(responseObj);
-		  var str = '';
-			for (var i = 0; i != 100; i++)
+		  if(statusTxt == "success")
 			{
-				str += dv.getUint8( i, true ) + ' ';
+				var objectStlLoader = new THREE.STLLoader();
+				var elem = document.getElementById("includedContent");
+				var geometry = objectStlLoader.parse( elem.innerHTML );
+			  
+				LoadModel(localFileName, geometry);
 			}
-			// alert(Array.apply([], binData).join(","));
-			// alert('1 ' + binData);
-			alert('DataView: ' + str);
+			else
+			{
+				alert("Cannot load file: " + xhr.statusText);
+			}
+			
+		  // var dv = new DataView(responseObj);
+		  // var str = '';
+			// for (var i = 0; i != 100; i++)
+			// {
+				// str += dv.getUint8( i, true ) + ' ';
+			// }
+			// // alert(Array.apply([], binData).join(","));
+			// // alert('1 ' + binData);
+			// alert('DataView: ' + str);
 		};
 		/*
 		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
@@ -203,8 +215,8 @@ function triggerFileInput() {
 		isSliderBeingChanged = true;
 		var modelHeightSlider = document.getElementById('modelHeightSlider');
 		var stepSlider = document.getElementById('stepSlider');
-		sliceView.step = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
-		sceneManager.SetStep(sliceView.step);
+		sliceView.cutPlanesCount = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
+		sceneManager.SetStep(sliceView.cutPlanesCount);
 		sliceView.step = sceneManager.GetZDelta();
 		var stepTextBox = document.getElementById('stepTextBox');
 		stepTextBox.value = stepValue;
@@ -222,12 +234,16 @@ function triggerFileInput() {
 		}
 	}
 	
+	function sliderChangeCurrentSelectedSlice(stepValue) {
+		sliceView.SetCurrentPlaneIndex(stepValue);
+	}
+	
 	function sliderChangeModelHeight(stepValue) {
 		isSliderBeingChanged = true;
 		var stepSlider = document.getElementById('stepSlider');
 		var modelHeightSlider = document.getElementById('modelHeightSlider');
-		sliceView.step = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
-		sceneManager.SetStep(sliceView.step);
+		sliceView.cutPlanesCount = parseInt(parseFloat(modelHeightSlider.value) / parseFloat(stepSlider.value));
+		sceneManager.SetStep(sliceView.cutPlanesCount);
 		sliceView.step = sceneManager.GetZDelta();
 		
 		var modelHeightTextBox = document.getElementById('modelHeightTextBox');
@@ -316,8 +332,8 @@ function triggerFileInput() {
 		sliceView.SetObject(geometry);
 		
 		var stepSliderInitValue = stepSlider.max / 10;
-		sliceView.step = parseInt(parseFloat(modelHeightSlider.min) / parseFloat(stepSliderInitValue));
-		sceneManager.SetStep(sliceView.step);
+		sliceView.cutPlanesCount = parseInt(parseFloat(modelHeightSlider.min) / parseFloat(stepSliderInitValue));
+		sceneManager.SetStep(sliceView.cutPlanesCount);
 		sliceView.step = sceneManager.GetZDelta();
 		stepTextBox.value = stepSliderInitValue;
 		modelHeightTextBox.value = modelHeightSlider.min;

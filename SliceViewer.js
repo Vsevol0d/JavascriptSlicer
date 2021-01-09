@@ -46,14 +46,17 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 	// SlicedObject - global variable in SlicerView
 	// CurrentLayer - global variable in SlicerView
 	
+	this.cutPlanesCount = 0;
 	this.step = 0;
 	var CurrentLayer = 0;
 	var Geometry = null;
 	var SlicedObject = null;
 	
 	this.SetSlicedObject = function(newValue) {
-		
 		SlicedObject = newValue;
+		var cutPlaneNumberSlider = document.getElementById('cutPlaneNumberSlider');
+		cutPlaneNumberSlider.max = this.cutPlanesCount;
+		cutPlaneNumberSlider.value = 0;		// Set pointer to the first plane
 		this.SetSlicedObjectControlsVisibility(SlicedObject != null);
 	}
 	
@@ -165,6 +168,20 @@ function SliceViewer(canvas, layerChangedCallback, pointsState, linesState, coun
 				this.MoveToLayer(CurrentLayer);
 			}
 		}
+	}
+	
+	this.SetCurrentPlaneIndex = function(planeIndexValue) {
+		var index = parseInt(planeIndexValue);
+		if (index < 0)
+		{
+			index = 0;
+		}
+		else if (index >= SlicedObject.Layers.length)
+		{
+			index = SlicedObject.Layers.length - 1;
+		}
+		CurrentLayer = index;
+		this.MoveToLayer(CurrentLayer);
 	}
 	
 	var originalLayer = null;

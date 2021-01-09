@@ -112,10 +112,10 @@
 							<img src="contours-icon.png" alt="Show model sliced areas" />
 						</label>
 					</div>
-					<input id="stepSlider1" type='range' class='slider vertical-slider' value='0.01' min='0.01' max='1' step='0.01'
+					<input id="cutPlaneNumberSlider" type='range' class='slider vertical-slider' value='1' min='0' max='1' step='1'
 							style="width: 100%; float: right; position: relative; transform: rotate(270deg);
 								margin: 270px -50% 0 0; background-color: #eeeeee80" 
-								/>
+								 oninput="sliderChangeCurrentSelectedSlice(this.value)" />
 					<canvas id="main_canvas_sliceview" style="
 						height: 100%; width: 100%;
 						border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>
@@ -188,14 +188,14 @@
 						<div class='div_double_range'>
 							<div class='div_double_range' style="margin: -5px -5px -5px -5px;">
 								<p class='p_in_range' style='margin: 0 0 0 50px;'>Model height(mm)</p>
-								<input id="modelHeightSlider" type='range' class='slider' value='1' min='1' max='100' step='1' oninput="sliderChangeModelHeight(this.value)" onchange="sliderChangeModelHeight(this.value)"/>
+								<input id="modelHeightSlider" type='range' class='slider' value='1' min='1' max='100' step='1' oninput="sliderChangeModelHeight(this.value)"/>
 								<input id="modelHeightTextBox" type='text' onchange="textBoxChangeModelHeight(this.value)" class='text_input text_input_colors' style="width: 40px;"/>
 							</div>
 						</div>
 						<div class='div_double_range'>
 							<div class='div_double_range' style="margin: -5px -5px -5px -5px;">
 								<p class='p_in_range' style='margin: 0 0 0 52px;'>Slice height(mm)</p>
-								<input id="stepSlider" type='range' class='slider' value='0.01' min='0.01' max='1' step='0.01' oninput="sliderChangeStep(this.value)" onchange="sliderChangeStep(this.value)"/>
+								<input id="stepSlider" type='range' class='slider' value='0.01' min='0.01' max='1' step='0.01' oninput="sliderChangeStep(this.value)"/>
 								<input id="stepTextBox" type='text' onchange="textBoxChangeStep(this.value)" class='text_input text_input_colors' style="width: 40px;"/>
 							</div>
 						</div>
