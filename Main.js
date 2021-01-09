@@ -6,6 +6,28 @@ function triggerFileInput() {
 	
 	function loadLocalModelFile(localFileName)
 	{
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('GET', localFileName);
+
+		xhr.responseType = 'arraybuffer';
+
+		xhr.send();
+
+		// тело ответа {"сообщение": "Привет, мир!"}
+		xhr.onload = function() {
+		  var responseObj = xhr.response;
+		  var dv = new DataView(responseObj);
+		  var str = '';
+			for (var i = 0; i != 100; i++)
+			{
+				str += dv.getUint8( i, true ) + ' ';
+			}
+			// alert(Array.apply([], binData).join(","));
+			// alert('1 ' + binData);
+			alert('DataView: ' + str);
+		};
+		/*
 		$("#includedContent").load(localFileName, function(responseTxt, statusTxt, xhr){
 		if(statusTxt == "success")
 		{
@@ -22,6 +44,7 @@ function triggerFileInput() {
 		  if(statusTxt == "error")
 			alert("Error: " + xhr.status + ": " + xhr.statusText);
 		});
+		*/
 	  // var elem = document.getElementById("includedContent");
 	  // triggerFileInput(elem.innerHTML);
 	  // var objectStlLoader = new THREE.STLLoader();
@@ -232,14 +255,14 @@ function triggerFileInput() {
 		var sideLength = objectCanvasView.offsetWidth;
 		var sideHeight = objectCanvasView.offsetHeight;
 		sceneManager.OnResize(event, sideLength, sideHeight);
-		alert('Resize');
-		var stepSlider1 = document.getElementById('stepSlider1');
-	alert("Slider1: " + stepSlider1.offsetWidth);
-	// stepSlider1.offsetWidth = 1000;
-	var viewTable = document.getElementById('ViewTable');
-	alert("ViewTable: " + viewTable.offsetWidth);
-	var sliceViewer = document.getElementById('SliceViewer');
-	alert("SliceViewer: " + sliceViewer.offsetWidth);
+		// alert('Resize');
+		// var stepSlider1 = document.getElementById('stepSlider1');
+	// alert("Slider1: " + stepSlider1.offsetWidth);
+	// // stepSlider1.offsetWidth = 1000;
+	// var viewTable = document.getElementById('ViewTable');
+	// alert("ViewTable: " + viewTable.offsetWidth);
+	// var sliceViewer = document.getElementById('SliceViewer');
+	// alert("SliceViewer: " + sliceViewer.offsetWidth);
 	};
 
 	var objectCanvasView = document.getElementById('td_canvas');
