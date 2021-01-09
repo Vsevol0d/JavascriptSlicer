@@ -52,6 +52,7 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	var binData = this.ensureBinary( data );
 	var reader1 = new DataView( binData );
 	
+	var str = '';
 	for (var i = 0; i != 100; i++)
 	{
 		str += reader.getUint8( i, true ) + ' ';
