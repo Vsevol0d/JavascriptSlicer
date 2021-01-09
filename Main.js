@@ -233,6 +233,13 @@ function triggerFileInput() {
 		var sideHeight = objectCanvasView.offsetHeight;
 		sceneManager.OnResize(event, sideLength, sideHeight);
 		alert('Resize');
+		var stepSlider1 = document.getElementById('stepSlider1');
+	alert("Slider1: " + stepSlider1.offsetWidth);
+	// stepSlider1.offsetWidth = 1000;
+	var viewTable = document.getElementById('ViewTable');
+	alert("ViewTable: " + viewTable.offsetWidth);
+	var sliceViewer = document.getElementById('SliceViewer');
+	alert("SliceViewer: " + sliceViewer.offsetWidth);
 	};
 
 	var objectCanvasView = document.getElementById('td_canvas');
