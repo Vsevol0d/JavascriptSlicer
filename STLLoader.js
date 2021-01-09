@@ -50,13 +50,15 @@ THREE.STLLoader.prototype.parse = function ( data ) {
 	};
 
 	var binData = this.ensureBinary( data );
-	var str = '';
+	var reader1 = new DataView( binData );
+	
 	for (var i = 0; i != 100; i++)
 	{
-		str += binData[i] + ' ';
+		str += reader.getUint8( i, true ) + ' ';
 	}
 	// alert(Array.apply([], binData).join(","));
-	alert('1 ' + binData);
+	// alert('1 ' + binData);
+	alert('DataView: ' + str);
 
 	return isBinary()
 		? this.parseBinary( binData )
@@ -70,6 +72,7 @@ alert('2 ' + data.length);
 	var reader = new DataView( data );
 	var faces = reader.getUint32( 80, true );
 alert('5 ' + faces + ' DataView length ' + reader.byteLength);
+
 	var r, g, b, hasColors = false, colors;
 	var defaultR, defaultG, defaultB, alpha;
 
