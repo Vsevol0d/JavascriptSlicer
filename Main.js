@@ -16,7 +16,7 @@ function triggerFileInput() {
 
 		xhr.onload = function() {
 		  var responseObj = xhr.response;
-		  if(statusTxt == "success")
+		  if(xhr.statusText == "success")
 			{
 				var objectStlLoader = new THREE.STLLoader();
 				var elem = document.getElementById("includedContent");
@@ -26,7 +26,7 @@ function triggerFileInput() {
 			}
 			else
 			{
-				alert("Cannot load file: " + xhr.statusText);
+				alert("Cannot load file: " + responseObj.message);
 			}
 			
 		  // var dv = new DataView(responseObj);
