@@ -20,7 +20,8 @@ function triggerFileInput() {
 				// var geometry = objectStlLoader.parse( elem.innerHTML );
 			  
 				var responseObj = xhr.response;
-				LoadModel(localFileName, responseObj);
+				var geometry = objectStlLoader.parse(responseObj);
+				LoadModel(localFileName, geometry);
 			/*
 		  var responseObj = xhr.response;
 		  var dv = new DataView(responseObj);
