@@ -155,7 +155,7 @@ function triggerFileInput() {
 		cutPlaneNumberSlider.style.width = sliceViewer.offsetHeight;
 		cutPlaneNumberSlider.style.offsetWidth = sliceViewer.offsetHeight;
 		// cutPlaneNumberSlider.style.position = 'static';
-		alert(cutPlaneNumberSlider.style.width);
+		// alert(cutPlaneNumberSlider.style.width);
 		/*
 		alert('cutPlaneNumberSliderHeight 1');
 		var cutPlaneNumberSliderHeight = $('#ViewTable').height();
