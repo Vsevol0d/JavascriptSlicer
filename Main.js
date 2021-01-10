@@ -125,6 +125,7 @@ function triggerFileInput() {
 	var rotateСameraRadioButton = document.getElementById('RotateСameraRadioButton');
 	rotateСameraRadioButton.addEventListener("change", function( event ) {
 		if(rotateСameraRadioButton.checked) {
+			sceneManager.DisableObjectRotation();
 			sceneManager.EnableCameraRotation();
 		} else { 
 		// This doesn't work
@@ -135,6 +136,7 @@ function triggerFileInput() {
 	var rotateObjectRadioButton = document.getElementById('RotateObjectRadioButton');
 	rotateObjectRadioButton.addEventListener('change', function( event ) {
 		if(rotateObjectRadioButton.checked) {
+			sceneManager.DisableCameraRotation();
 			sceneManager.EnableObjectRotation();
 		} else { 
 			sceneManager.DisableObjectRotation();
