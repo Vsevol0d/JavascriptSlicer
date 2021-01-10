@@ -113,10 +113,13 @@
 							<img src="contours-icon.png" alt="Show model sliced areas" />
 						</label>
 					</div>
+					<div style="width: 20px; float: right; position: relative; height: 100%;
+								margin: -10px -10px -10px 0; background-color: transparent;">
 					<input id="cutPlaneNumberSlider" type='range' class='slider vertical-slider' value='1' min='0' max='1' step='1'
-							style="width: 100%; float: right; position: relative; transform: rotate(270deg);
-								margin: 270px -50% 0 0; background-color: #eeeeee80" 
-								 oninput="sliderChangeCurrentSelectedSlice(this.value)" />
+							style="width: 300px; float: right; position: relative; transform: rotate(270deg) scaleX(30); 
+								background-color: #eeeeee80; margin: 290px 0px 0 0" 
+								oninput="sliderChangeCurrentSelectedSlice(this.value)" />
+					</div>
 					<canvas id="main_canvas_sliceview" style="
 						height: 100%; width: 100%;
 						border: thin inset grey /darkgray;" class="interactive_canvas"></canvas>

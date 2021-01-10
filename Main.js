@@ -85,10 +85,6 @@ function triggerFileInput() {
 		   handleSelector: ".splitter",
 		   resizeHeight: false
 		 });
-		 $(".panel-top").resizable({
-		   handleSelector: ".splitter-horizontal",
-		   resizeWidth: false
-		 });
 	}
 	
 	var objectModelsDropDownList = document.getElementById('objectModelsDropDownList');
@@ -153,6 +149,21 @@ function triggerFileInput() {
 		
 		showContoursCheckbox.checked = true;
 		FillCountursChanged(null);
+		
+		var sliceViewer = document.getElementById('SliceViewer');
+		var cutPlaneNumberSlider = document.getElementById('cutPlaneNumberSlider');
+		cutPlaneNumberSlider.style.width = sliceViewer.offsetHeight;
+		cutPlaneNumberSlider.style.offsetWidth = sliceViewer.offsetHeight;
+		// cutPlaneNumberSlider.style.position = 'static';
+		alert(cutPlaneNumberSlider.style.width);
+		/*
+		alert('cutPlaneNumberSliderHeight 1');
+		var cutPlaneNumberSliderHeight = $('#ViewTable').height();
+		$('#cutPlaneNumberSlider').css({
+			'width': cutPlaneNumberSliderHeight + 'px'
+		});
+		alert('cutPlaneNumberSliderHeight 2');
+		*/
 	}
 	
 	var SetupPrintModalWindow = function()
